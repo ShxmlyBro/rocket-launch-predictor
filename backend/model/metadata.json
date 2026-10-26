@@ -1,0 +1,123 @@
+{
+  "metrics": {
+    "Model": "RF + SMOTE + tuned threshold (FINAL)",
+    "Threshold": 0.167,
+    "Accuracy": 0.701,
+    "Precision": 0.119,
+    "Recall": 0.63,
+    "F1": 0.2,
+    "F2": 0.339,
+    "PR-AUC": 0.122,
+    "ROC-AUC": 0.705
+  },
+  "best_params": {
+    "clf__max_depth": null,
+    "clf__max_features": 0.3,
+    "clf__min_samples_leaf": 3
+  },
+  "feature_importance_by_variable": {
+    "LV_Type": 32.45,
+    "Agency": 18.93,
+    "Launch_Site": 13.47,
+    "max_wind_speed": 12.85,
+    "temp_mean": 11.7,
+    "precipitation": 10.6
+  },
+  "top_encoded_features": {
+    "cat__LV_Type_infrequent_sklearn": 14.23,
+    "num__max_wind_speed": 12.85,
+    "num__temp_mean": 11.7,
+    "num__precipitation": 10.6,
+    "cat__Agency_infrequent_sklearn": 2.9,
+    "cat__Agency_GSFC": 2.6,
+    "cat__LV_Type_Nike Apache": 2.17,
+    "cat__Launch_Site_CC": 1.63,
+    "cat__Agency_RVSN": 1.52,
+    "cat__Agency_AN": 1.37,
+    "cat__Launch_Site_WI": 1.25,
+    "cat__Launch_Site_infrequent_sklearn": 1.24,
+    "cat__Agency_AFBSD": 1.22,
+    "cat__Launch_Site_WS": 1.13,
+    "cat__Launch_Site_NIIP-5": 1.12
+  },
+  "eda_stats": {
+    "total_records": 13593,
+    "success": 12783,
+    "anomaly": 810,
+    "anomaly_pct": 5.96,
+    "weather_means_by_outcome": {
+      "Anomaly": {
+        "temp_mean": 12.84,
+        "precipitation": 1.36,
+        "max_wind_speed": 20.13
+      },
+      "Success": {
+        "temp_mean": 12.23,
+        "precipitation": 1.5,
+        "max_wind_speed": 20.64
+      }
+    },
+    "top_sites": [
+      {
+        "Launch_Site": "WS",
+        "launches": 1498,
+        "anomalies": 69,
+        "anomaly_rate": 4.61
+      },
+      {
+        "Launch_Site": "WI",
+        "launches": 1474,
+        "anomalies": 53,
+        "anomaly_rate": 3.6
+      },
+      {
+        "Launch_Site": "CC",
+        "launches": 800,
+        "anomalies": 98,
+        "anomaly_rate": 12.25
+      },
+      {
+        "Launch_Site": "FC",
+        "launches": 770,
+        "anomalies": 60,
+        "anomaly_rate": 7.79
+      },
+      {
+        "Launch_Site": "NIIP-5",
+        "launches": 650,
+        "anomalies": 82,
+        "anomaly_rate": 12.62
+      },
+      {
+        "Launch_Site": "V",
+        "launches": 578,
+        "anomalies": 41,
+        "anomaly_rate": 7.09
+      },
+      {
+        "Launch_Site": "WOO",
+        "launches": 474,
+        "anomalies": 36,
+        "anomaly_rate": 7.59
+      },
+      {
+        "Launch_Site": "NIIP-53",
+        "launches": 428,
+        "anomalies": 59,
+        "anomaly_rate": 13.79
+      },
+      {
+        "Launch_Site": "EGL",
+        "launches": 381,
+        "anomalies": 20,
+        "anomaly_rate": 5.25
+      },
+      {
+        "Launch_Site": "ETR",
+        "launches": 369,
+        "anomalies": 26,
+        "anomaly_rate": 7.05
+      }
+    ]
+  }
+}

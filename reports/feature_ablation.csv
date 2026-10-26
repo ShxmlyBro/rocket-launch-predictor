@@ -1,0 +1,5 @@
+Feature set,CV PR-AUC,PR-AUC std,CV ROC-AUC
+Site + vehicle + agency only,0.15,0.022,0.731
+Weather only,0.073,0.008,0.563
+Weather + site + vehicle + agency,0.146,0.016,0.725
+Above + launch year,0.173,0.023,0.743

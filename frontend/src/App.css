@@ -1,0 +1,50 @@
+/* App.css */
+
+/* General styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(to right, #000428, #004e92);
+  padding: 100px 0;
+  color: white;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+}
+
+/* Navbar */
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Launch Cards */
+.card {
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+  background-color: #343a40;
+}
+footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
