@@ -148,7 +148,7 @@ function App() {
 
         <footer className="bg-dark text-white py-3 text-center">
           <p>
-            © {new Date().getFullYear()} Space Launch Schedule | Made with React
+            © {new Date().getFullYear()} Space Launch Schedule | by Shamly
           </p>
         </footer>
       </div>
@@ -157,3 +157,4 @@ function App() {
 }
 
 export default App;
+  

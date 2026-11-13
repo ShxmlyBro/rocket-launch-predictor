@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./notebooks/**)",
+      "Read(./**/modelling.ipynb)",
+      "Read(./**/eda_analysis.ipynb)"
+    ]
+  }
+}
