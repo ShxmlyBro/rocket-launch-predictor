@@ -7,3 +7,6 @@ __pycache__/
 node_modules/
 data/raw/
 .env
+data/merged_gcat_meteo_v1.csv
+data/merged_gcat_meteo_v2.csv.partial
+data/merged_gcat_meteo_v2.csv.state.json
