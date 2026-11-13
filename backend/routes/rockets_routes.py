@@ -1,7 +1,8 @@
 from fastapi import APIRouter, HTTPException, Request
 
 from model_service import NUMERIC_RANGES, ModelService
-from schemas import FeaturesResponse, PredictRequest, PredictResponse
+from schemas import FeaturesResponse, PredictRequest, PredictResponse, UpcomingResponse
+from upcoming_service import get_upcoming
 
 rocketsRouter = APIRouter()
 
@@ -34,6 +35,11 @@ def features(request: Request):
         "categories": {k: list(v) for k, v in service.known_categories.items()},
         "numeric_ranges": NUMERIC_RANGES,
     }
+
+
+@rocketsRouter.get("/upcoming", response_model=UpcomingResponse)
+def upcoming(request: Request):
+    return get_upcoming(get_service(request))
 
 
 @rocketsRouter.get("/eda-stats")

@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -23,6 +23,28 @@ class PredictResponse(BaseModel):
     above_threshold: bool
     threshold: float
     note: str
+
+
+class UpcomingLaunch(BaseModel):
+    mission: str
+    rocket: str
+    provider: str
+    pad: str
+    net: Optional[str] = None
+    weather: Optional[Dict[str, float]] = None
+    risk_score: Optional[float] = None
+    threshold: float
+    above_threshold: Optional[bool] = None
+    verdict: str
+    match_quality: Literal["full", "limited"]
+    reasons: List[str] = []
+
+
+class UpcomingResponse(BaseModel):
+    stale: bool
+    as_of: str
+    note: str
+    launches: List[UpcomingLaunch]
 
 
 class FeaturesResponse(BaseModel):

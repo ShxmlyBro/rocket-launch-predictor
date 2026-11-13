@@ -1,0 +1,69 @@
+{
+  "_note": "sample data",
+  "as_of": "2026-01-01T00:00:00+00:00",
+  "launches": [
+    {
+      "mission": "Sample Mission A",
+      "rocket": "Falcon 9 Block 5",
+      "provider": "SpaceX",
+      "pad": "Space Launch Complex 40, Cape Canaveral SFS, FL, USA",
+      "net": "2026-01-01T12:00:00Z",
+      "weather": {
+        "temp_mean": 18.0,
+        "precipitation": 0.4,
+        "max_wind_speed": 22.0
+      },
+      "risk_score": 0.4123,
+      "threshold": 0.16725441072342848,
+      "above_threshold": null,
+      "verdict": "low confidence",
+      "match_quality": "limited",
+      "reasons": [
+        "vehicle: 'Falcon 9' is rare in training data (grouped as infrequent)",
+        "agency: 'SPX' is rare in training data (grouped as infrequent)"
+      ]
+    },
+    {
+      "mission": "Sample Mission B",
+      "rocket": "Electron",
+      "provider": "Rocket Lab",
+      "pad": "Rocket Lab LC-1A, Mahia Peninsula, New Zealand",
+      "net": "2026-01-02T03:00:00Z",
+      "weather": {
+        "temp_mean": 14.0,
+        "precipitation": 2.1,
+        "max_wind_speed": 30.0
+      },
+      "risk_score": 0.2989,
+      "threshold": 0.16725441072342848,
+      "above_threshold": null,
+      "verdict": "low confidence",
+      "match_quality": "limited",
+      "reasons": [
+        "site: 'MAHIA' is rare in training data (grouped as infrequent)",
+        "vehicle: 'Electron' is rare in training data (grouped as infrequent)",
+        "agency: 'Rocket Lab' is not mapped to a model category"
+      ]
+    },
+    {
+      "mission": "Sample Mission C",
+      "rocket": "PSLV",
+      "provider": "Indian Space Research Organisation",
+      "pad": "Satish Dhawan Space Centre, Sriharikota, India",
+      "net": "2026-01-03T05:00:00Z",
+      "weather": {
+        "temp_mean": 28.0,
+        "precipitation": 0.0,
+        "max_wind_speed": 18.0
+      },
+      "risk_score": 0.1708,
+      "threshold": 0.16725441072342848,
+      "above_threshold": null,
+      "verdict": "low confidence",
+      "match_quality": "limited",
+      "reasons": [
+        "vehicle: 'PSLV' is not mapped to a model category"
+      ]
+    }
+  ]
+}
