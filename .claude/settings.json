@@ -3,7 +3,10 @@
     "deny": [
       "Read(./notebooks/**)",
       "Read(./**/modelling.ipynb)",
-      "Read(./**/eda_analysis.ipynb)"
+      "Read(./**/eda_analysis.ipynb)",
+      "Read(./data/**)",
+      "Read(./venv/**)",
+      "Read(./.venv/**)"
     ]
   }
 }

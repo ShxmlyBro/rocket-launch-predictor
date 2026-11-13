@@ -1,50 +1,47 @@
-from fastapi import APIRouter
-from fastapi.responses import JSONResponse
-from pred.model.rocket_launch_model import RocketLaunchPredictor
+from fastapi import APIRouter, HTTPException, Request
 
-# Create a rocketsRouter instance
+from model_service import NUMERIC_RANGES, ModelService
+from schemas import FeaturesResponse, PredictRequest, PredictResponse
+
 rocketsRouter = APIRouter()
-predictor = RocketLaunchPredictor()
 
-@rocketsRouter.get("/train/")
-def train_and_save_model():
-    """
-    Endpoint to train and save the model.
-    """
-    predictor.train_and_save_model()
-    return {"message": "Model trained and saved successfully."}
 
-@rocketsRouter.get("/evaluate/")
-def evaluate_model():
-    """
-    Endpoint to evaluate the trained model.
-    """
-    X_train, X_test, y_train, y_test, _ = predictor.preprocess_data()
-    evaluation = predictor.evaluate_model(X_test, y_test)
-    return evaluation
+def get_service(request: Request) -> ModelService:
+    service = getattr(request.app.state, "service", None)
+    if service is None:
+        raise HTTPException(status_code=503, detail="Model is not loaded")
+    return service
 
-@rocketsRouter.get("/rockets/location")
-async def predict_launch(location: str):
-    try:
-        prediction_result = predictor.predict_launch(location)
-        return JSONResponse(content=prediction_result)
-    except Exception as e:
-        return JSONResponse(
-            content={
-                "prediction": "Error",
-                "accuracy": "0%",
-                "success_probability": "0%",
-                "failure_probability": "0%",
-                "error": str(e)
-            }, 
-            status_code=500
-        )
 
-@rocketsRouter.get("/rockets/locations")
-async def get_all_locations():
-    try:
-        locations = predictor.get_all_locations()
-        return JSONResponse(content={"locations": locations})
-    except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=500)
+@rocketsRouter.get("/health")
+def health(request: Request):
+    return {
+        "status": "ok",
+        "model_loaded": getattr(request.app.state, "service", None) is not None,
+    }
 
+
+@rocketsRouter.post("/predict", response_model=PredictResponse)
+def predict(body: PredictRequest, request: Request):
+    service = get_service(request)
+    return service.predict(body.model_dump())
+
+
+@rocketsRouter.get("/features", response_model=FeaturesResponse)
+def features(request: Request):
+    service = get_service(request)
+    return {
+        "categories": {k: list(v) for k, v in service.known_categories.items()},
+        "numeric_ranges": NUMERIC_RANGES,
+    }
+
+
+@rocketsRouter.get("/eda-stats")
+def eda_stats(request: Request):
+    service = get_service(request)
+    meta = service.metadata
+    return {
+        "eda_stats": meta.get("eda_stats", {}),
+        "feature_importance_by_variable": meta.get("feature_importance_by_variable", {}),
+        "top_encoded_features": meta.get("top_encoded_features", {}),
+    }
