@@ -6,7 +6,9 @@
       "Read(./**/eda_analysis.ipynb)",
       "Read(./data/**)",
       "Read(./venv/**)",
-      "Read(./.venv/**)"
+      "Read(./.venv/**)",
+      "Read(./frontend/node_modules/**)",
+      "Read(./**/node_modules/**)"
     ]
   }
 }
