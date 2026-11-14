@@ -1,4 +1,111 @@
 {
   "_note": "sample data",
-  "items": []
+  "as_of": "2026-11-14T09:08:09.909431+00:00",
+  "items": [
+    {
+      "title": "Next Vega C Launch Edges Closer to Christmas Day as Satellites Arrive Late",
+      "source": "European Spaceflight",
+      "published_at": "2026-11-14T06:00:41Z",
+      "summary": "Italian rocket manufacturer Avio has revealed that delays in the delivery of customer satellites have pushed the third Vega C launch of 2026 back toward Christmas, several weeks later than previously planned. Speaking during the company’...",
+      "url": "https://europeanspaceflight.com/next-vega-c-launch-edges-closer-to-christmas-day-as-satellites-arrive-late/"
+    },
+    {
+      "title": "Starship flight 15 powers to orbit—setting up a possible catch on Saturday",
+      "source": "Arstechnica",
+      "published_at": "2026-11-14T00:49:13Z",
+      "summary": "One way or another, the company will get some more data on Saturday.",
+      "url": "https://arstechnica.com/space/2026/11/starship-flight-15-powers-to-orbit-setting-up-a-possible-catch-on-saturday/"
+    },
+    {
+      "title": "Starship IFT-15 is in Orbit — Will it be “Caught” When It Returns to Earth?",
+      "source": "SpacePolicyOnline.com",
+      "published_at": "2026-11-13T23:54:54Z",
+      "summary": "SpaceX launched the 15th Starship Integrated Flight Test (IFT-15) early this evening from Starbase, Texas. Plans to bring the first stage Booster back to the launch tower for a “catch” […]",
+      "url": "https://spacepolicyonline.com/news/starship-ift-15-is-in-orbit-will-it-be-caught-when-it-returns-to-earth/"
+    },
+    {
+      "title": "Live Coverage: Starship Flight 15 attempts to recover full vehicle in double launch pad catch",
+      "source": "Spaceflight Now",
+      "published_at": "2026-11-13T19:15:11Z",
+      "summary": "Liftoff of the integrated Starship vehicle from Starbase in Texas is scheduled during a 75-minute launch window that opens at 4:45 p.m. CST (5:45 p.m. EST / 2245 UTC) on Friday, Nov. 13.",
+      "url": "https://spaceflightnow.com/2026/11/13/live-coverage-starship-flight-15-attempts-to-recover-full-vehicle-in-double-launch-pad-catch/"
+    },
+    {
+      "title": "Commercial Space Federation Welcomes CesiumAstro as a New Associate Member",
+      "source": "SpaceNews",
+      "published_at": "2026-11-13T18:00:00Z",
+      "summary": "November 13, 2026— Washington, D.C.—The Commercial Space Federation (CSF) is pleased to welcome CesiumAstro as its newest Associate Member. A global leader in advanced connectivity solutions for the space and […] The post Commercial Spac...",
+      "url": "https://spacenews.com/commercial-space-federation-welcomes-cesiumastro-as-a-new-associate-member/"
+    },
+    {
+      "title": "Outbursts from a Massive Star",
+      "source": "NASA",
+      "published_at": "2026-11-13T16:39:33Z",
+      "summary": "Using NASA’s Chandra X-ray Observatory, astronomers have discovered what is triggering repeated outbursts from a giant, unstable star located in the galaxy shown in this image released on Nov. 9, 2026. The volatile star, known as AT 2016...",
+      "url": "https://www.nasa.gov/image-article/outbursts-from-a-massive-star/"
+    },
+    {
+      "title": "Gemini Astronaut Photos Inspired Early Earth Observation Program",
+      "source": "NASA",
+      "published_at": "2026-11-13T16:05:54Z",
+      "summary": "Astronauts James A. Lovell Jr. and Edwin E. “Buzz” Aldrin Jr. orbited Earth from November 11 to 15, 1966, on Gemini XII, the final mission of NASA’s Gemini program. In addition to successfully completing rendezvous maneuvers and spacewal...",
+      "url": "https://www.nasa.gov/image-article/gemini-astronaut-photos-inspired-early-earth-observation-program/"
+    },
+    {
+      "title": "ULA’s Vulcan rocket plans return to flight with launch of 40 Leo satellites for Amazon",
+      "source": "Spaceflight Now",
+      "published_at": "2026-11-13T12:25:06Z",
+      "summary": "Liftoff from Space Launch Complex 41 at Cape Canaveral Space Force Station is scheduled for 12:54 p.m. EST (1754 UTC), at the opening of a 29-minute window.",
+      "url": "https://spaceflightnow.com/2026/11/13/ulas-vulcan-rocket-plans-return-to-flight-with-launch-of-40-leo-satellites-for-amazon/"
+    },
+    {
+      "title": "Rocket Report: Starship set for historic test flight; a century of Electron",
+      "source": "Arstechnica",
+      "published_at": "2026-11-13T12:00:40Z",
+      "summary": "\"You can simplify it as a big tank feeding engines.\"",
+      "url": "https://arstechnica.com/space/2026/11/rocket-report-starship-set-for-historic-test-flight-a-century-of-electron/"
+    },
+    {
+      "title": "ESA Confirms Latest Prometheus Tests Not Connected to Themis Hop Preparations",
+      "source": "European Spaceflight",
+      "published_at": "2026-11-13T07:57:07Z",
+      "summary": "The European Space Agency (ESA) and ArianeGroup have confirmed that Prometheus engine tests conducted in Lampoldshausen in October were carried out independently of preparations for the long-delayed inaugural flight of the Themis reusabl...",
+      "url": "https://europeanspaceflight.com/esa-confirms-latest-prometheus-tests-not-connected-to-themis-hop-preparations/"
+    },
+    {
+      "title": "APOD: 2026 November 13 – NGC 206 and the Star Clouds of Andromeda",
+      "source": "NASA",
+      "published_at": "2026-11-13T05:05:00Z",
+      "summary": "APOD Science APOD APOD: 2026 November 13 – NGC… Today’s APOD Archive Submissions Index Search Calendar RSS Education About Discuss APOD Astronomy Picture of the Day Discover the cosmos! Each day a different image or photograph of our fas...",
+      "url": "https://science.nasa.gov/image-article/apod-2026-november-13-ngc-206-and-the-star-clouds-of-andromeda/"
+    },
+    {
+      "title": "A Global Rebound for Mangroves",
+      "source": "NASA",
+      "published_at": "2026-11-13T05:01:00Z",
+      "summary": "After decades of decline, this ecologically significant type of forest is making a comeback.",
+      "url": "https://science.nasa.gov/earth/earth-observatory/a-global-rebound-for-mangroves/"
+    },
+    {
+      "title": "Senate Appropriations CJS Subcommittee Proposes $24.9 Billion for NASA in FY2027",
+      "source": "SpacePolicyOnline.com",
+      "published_at": "2026-11-13T04:55:42Z",
+      "summary": "The Senate Appropriations Committee released five more FY2027 bills this evening, including the Commerce-Justice-Science bill that funds NASA. The CJS subcommittee is proposing $24.874 billion for NASA, slightly more than […]",
+      "url": "https://spacepolicyonline.com/news/senate-appropriations-cjs-subcommittee-proposes-24-9-billion-for-nasa-in-fy2027/"
+    },
+    {
+      "title": "Starship Flight 15 to attempt first catch of both stages",
+      "source": "NASASpaceflight",
+      "published_at": "2026-11-13T04:24:28Z",
+      "summary": "After 14 full-stack flights, SpaceX is set to attempt something no one in spaceflight history… The post Starship Flight 15 to attempt first catch of both stages appeared first on NASASpaceFlight.com.",
+      "url": "https://www.nasaspaceflight.com/2026/11/starship-flight-15-spacex-history/"
+    },
+    {
+      "title": "NASA Looking for New Ways to Return Perseverance Samples From Mars",
+      "source": "SpacePolicyOnline.com",
+      "published_at": "2026-11-13T02:48:46Z",
+      "summary": "In January, NASA will begin assessing new strategies to return the samples now being collected by the Mars Perseverance rover to Earth. The agency ended an earlier Mars Sample Return […]",
+      "url": "https://spacepolicyonline.com/news/nasa-looking-for-new-ways-to-return-perseverance-samples-from-mars/"
+    }
+  ]
 }

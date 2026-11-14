@@ -1,4 +1,406 @@
 {
   "_note": "sample data",
-  "items": []
+  "as_of": "2026-11-14T09:08:02.072597+00:00",
+  "items": [
+    {
+      "name": "Aaron Newman",
+      "nationality": "American",
+      "agency": "Blue Origin",
+      "status": "Occasional Spaceflight",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aaron_newman_in_image_20251008055533.jpg",
+      "bio": "Entrepreneur, explorer, and US Army veteran."
+    },
+    {
+      "name": "Abdul Ahad Mohmand",
+      "nationality": "Afghan",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Deceased",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/abdul2520ahad2520mohmand_image_20181201175826.jpg",
+      "bio": "Abdul Ahad Mohmand (Pashto: عبدالاحد مومند‎; born January 1, 1959) is a former Afghan Air Force aviator who became the first Afghan citizen and fourth Muslim to journey to outer space. He became one of Soyuz TM-6 crew members and spent nine days aboard the Mir space station in 1988 as an Intercos..."
+    },
+    {
+      "name": "Adam Fuhrmann",
+      "nationality": "American",
+      "agency": "National Aeronautics and Space Administration",
+      "status": "In-Training",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/adam_fuhrmann_o_image_20251205152809.jpg",
+      "bio": "American NASA astronaut candidate and Air Force major."
+    },
+    {
+      "name": "Adonis Pouroulis",
+      "nationality": "American",
+      "agency": "Blue Origin",
+      "status": "Occasional Spaceflight",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/adonis_pourouli_image_20251205150902.png",
+      "bio": "Entrepreneur, investor, and mining engineer."
+    },
+    {
+      "name": "Adrianos Golemis",
+      "nationality": "Greek",
+      "agency": "European Space Agency",
+      "status": "In-Training",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/adrianos_golemi_image_20260925010416.jpeg",
+      "bio": "Adrianos Golemis is a Greek medical doctor and astronaut. In November 2022, he was selected as member of the European Space Agency reserve team of astronauts. He is the first astronaut of Greece."
+    },
+    {
+      "name": "Adrian Reynard",
+      "nationality": "British",
+      "agency": "Virgin Galactic",
+      "status": "Occasional Spaceflight",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/adrian_reynard_image_20230908180648.jpeg",
+      "bio": "Adrian John Reynard is the founder of Reynard Motorsport, which was a successful racing car manufacturer before it went bankrupt in 2002."
+    },
+    {
+      "name": "Aidyn Aimbetov",
+      "nationality": "Kazakh",
+      "agency": "National Space Agency of the Republic of Kazakhstan",
+      "status": "Active",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aidyn2520aimbetov_image_20181128214459.jpg",
+      "bio": "Aimbetov was selected to the first Kazakh cosmonaut class in 2002, along with Mukhtar Aimakhanov, out of a pool of 2,000 candidates. From 2003 to 2009, he trained in Russia as a cosmonaut at Star City. He returned to Astana, in Kazakhstan, after failing to secure a spaceflight. He had been schedu..."
+    },
+    {
+      "name": "Aisha Bowe",
+      "nationality": "American Bahamian",
+      "agency": "Blue Origin",
+      "status": "Occasional Spaceflight",
+      "image_url": null,
+      "bio": "Former NASA rocket scientist, entrepreneur, and global STEM advocate."
+    },
+    {
+      "name": "Akihiko Hoshide",
+      "nationality": "Japanese",
+      "agency": "Japan Aerospace Exploration Agency",
+      "status": "Active",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/akihiko_hoshide_image_20210327081731.jpg",
+      "bio": "Akihiko Hoshide is a Japanese engineer and JAXA astronaut. On August 30, 2012, Hoshide became the third Japanese astronaut to walk in space. His space selfies from 2012, including another space selfie that was posted on Instagram, appeared at the top of many selfie lists of 2013."
+    },
+    {
+      "name": "Alain Fernandez",
+      "nationality": "French",
+      "agency": "Blue Origin",
+      "status": "Occasional Spaceflight",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alain_fernandez_image_20260116170455.jpg",
+      "bio": "International real estate developer and investor"
+    },
+    {
+      "name": "Alan Bean",
+      "nationality": "American",
+      "agency": "National Aeronautics and Space Administration",
+      "status": "Deceased",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alan2520bean_image_20181128145355.jpg",
+      "bio": "Alan LaVern Bean was an American naval officer and naval aviator, aeronautical engineer, test pilot, and NASA astronaut; he was the fourth person to walk on the Moon. He was selected to become an astronaut by NASA in 1963 as part of Astronaut Group 3. He made his first flight into space aboard Ap..."
+    },
+    {
+      "name": "Alan G. Poindexter",
+      "nationality": "American",
+      "agency": "National Aeronautics and Space Administration",
+      "status": "Deceased",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alan2520g.2520poindexter_image_20190426143719.jpeg",
+      "bio": "Alan Goodwin \"Dex\" Poindexter was an American naval officer and a NASA astronaut. Poindexter was selected in the 1998 NASA Group (G17) and went into orbit aboard Space Shuttle missions STS-122, and STS-131."
+    },
+    {
+      "name": "Alan Shepard",
+      "nationality": "American",
+      "agency": "National Aeronautics and Space Administration",
+      "status": "Deceased",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alan2520shepard_image_20181128141007.jpg",
+      "bio": "Rear Admiral Alan Bartlett Shepard Jr. was an American astronaut, naval aviator, test pilot, and businessman. In 1961 he became the first American to travel into space, and in 1971 he walked on the Moon."
+    },
+    {
+      "name": "Alberto Gutiérrez",
+      "nationality": "Spanish",
+      "agency": "Blue Origin",
+      "status": "Occasional Spaceflight",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alberto_guti25_image_20260116170918.jpg",
+      "bio": "Entrepreneur, technologist, and world traveler."
+    },
+    {
+      "name": "Albert Sacco",
+      "nationality": "American",
+      "agency": "National Aeronautics and Space Administration",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/albert2520sacco_image_20190211162452.jpeg",
+      "bio": "Albert Sacco Jr. (born May 3, 1949) is an American chemical engineer who flew as a Payload Specialist on the Space Shuttle Columbia on shuttle mission STS-73 in 1995."
+    },
+    {
+      "name": "Aleksandr Aleksandrovich Volkov",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksandr2520aleksandrovich2520volkov_image_20181201224523.jpg",
+      "bio": "Aleksandr Aleksandrovich Volkov (Russian: Алекса́ндр Алекса́ндрович Во́лков, born 27 May 1948) is a retired Russian cosmonaut. He is a veteran of 3 space flights, including twice to the Mir Soviet space station, and is the father of cosmonaut Sergey Volkov."
+    },
+    {
+      "name": "Aleksandr Gorbunov",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Active",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksandr_gorbu_image_20241224223347.jpg",
+      "bio": "Born in Zheleznogorsk, Kursk region, Russia, he studied engineering with qualifications in spacecraft and upper stages from the Moscow Aviation Institute. Gorbunov graduated from the military department with a specialty in operation and repair of aircraft, helicopters, and aircraft engines. Befor..."
+    },
+    {
+      "name": "Aleksandr Ivanchenkov",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksandr2520ivanchenkov_image_20181129231158.jpg",
+      "bio": "Aleksandr Sergeyevich Ivanchenkov (Russian: Алекса́ндр Серге́евич Иванче́нков; born 28 September 1940 ) is a retired Soviet cosmonaut who flew as Flight Engineer on Soyuz 29 and Soyuz T-6, he spent 147 days, 12 hours and 37 minutes in space."
+    },
+    {
+      "name": "Aleksandr Kaleri",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Active",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksandr2520kaleri_image_20181129232134.jpg",
+      "bio": "Aleksandr Yuriyevich \"Sasha\" Kaleri (Russian: Александр Юрьевич Калери; born Jūrmala, Latvian SSR, USSR, 13 May 1956) is a Russian cosmonaut and veteran of extended stays on the Mir Space Station and the International Space Station (ISS). Kaleri has most recently been in space aboard the ISS serv..."
+    },
+    {
+      "name": "Aleksandr Laveykin",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksandr2520laveykin_image_20181129234612.jpg",
+      "bio": "Aleksandr Ivanovich Laveykin (Russian: Александр Иванович Лавейкин; born April 21, 1951) is a retired Soviet cosmonaut. Born in Moscow, Laveykin was selected as a cosmonaut on December 1, 1978. He flew on one spaceflight, for the first part of the long duration expedition Mir EO-2. He flew as a f..."
+    },
+    {
+      "name": "Aleksandr Lazutkin",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksandr2520lazutkin_image_20181129234830.jpg",
+      "bio": "Aleksandr Ivanovich Lazutkin (Russian: Александр Иванович Лазуткин; born October 30, 1957) is a Russian cosmonaut."
+    },
+    {
+      "name": "Aleksandr Nikolayevich Balandin",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksandr2520nikolayevich2520balandin_image_20181128221033.jpg",
+      "bio": "Aleksandr Nikolayevich Balandin (Russian: Александр Николаевич Баландин) (born July 30, 1953) is a Russian cosmonaut. He is married with two children. He was selected as a cosmonaut on December 1, 1978, and retired on October 17, 1994. He flew as a flight engineer on Soyuz TM-9. He worked at NPO..."
+    },
+    {
+      "name": "Aleksandr Panayotov Aleksandrov",
+      "nationality": "Bulgarian",
+      "agency": "Bulgarian Space Agency",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksandr2520panayotov2520aleksandrov_image_20181128215016.jpg",
+      "bio": "Aleksandrov was born in Omurtag, Bulgaria on December 1, 1951. He graduated from the Bulgarian Air Force Academy in 1974 and obtained a degree in technical sciences in 1983. In the Bulgarian Air Force, Aleksandrov rose to the rank of lieutenant colonel. On June 7, 1988, Aleksandrov launched aboar..."
+    },
+    {
+      "name": "Aleksandr Pavlovich Aleksandrov",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksandr2520pavlovich2520aleksandrov_image_20181128215144.jpg",
+      "bio": "Aleksandr Pavlovich Aleksandrov (Russian: Александр Павлович Александров; born February 20, 1943) is a former Soviet cosmonaut and twice Hero of the Soviet Union (November 23, 1983, and December 29, 1987). He was selected as cosmonaut on December 1, 1978. For his first spaceflight, he flew as Fli..."
+    },
+    {
+      "name": "Aleksandr Poleshchuk",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksandr2520poleshchuk_image_20181201212023.jpg",
+      "bio": "Aleksandr Fyodorovich Poleshchuk (Russian: Александр Фёдорович Полещук, born October 30, 1953) is a Russian cosmonaut. In February 1989 he was selected as a test cosmonaut candidate (1989 Cosmonaut Candidates Class, Group 14, Civil Specialists). From September 1989 to January 1991 he underwent th..."
+    },
+    {
+      "name": "Aleksandr Samokutyayev",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksandr2520samokutyayev_image_20181201214845.jpg",
+      "bio": "Aleksandr Mikhailovich Samokutyayev (Александр Михайлович Самокутяев – born 13 March 1970 in Penza / Penza Oblast / Russian SFSR) is a former Russian cosmonaut. Samokutyayev served as a Flight Engineer for the International Space Station (ISS) long duration Expedition 27/28 missions. He also serv..."
+    },
+    {
+      "name": "Aleksandr Serebrov",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Deceased",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksandr2520serebrov_image_20181201215818.jpg",
+      "bio": "Aleksandr Aleksandrovich Serebrov (Russian: Алекса́ндр Алекса́ндрович Серебро́в, February 15, 1944 – November 12, 2013) was a Soviet cosmonaut. He graduated from Moscow Institute of Physics and Technology (1967), and was selected as a cosmonaut on December 1, 1978. He retired on May 10, 1995. He..."
+    },
+    {
+      "name": "Aleksandr Skvortsov",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksandr2520skvortsov_image_20191231114359.jpg",
+      "bio": "Aleksandr Aleksandrovich Skvortsov (Russian: Aлександр Aлександрович Скворцов; born May 6, 1966) is a Russian cosmonaut. He has had two spaceflights, which were long-duration missions aboard the International Space Station. His first spaceflight took place from April to September 2010, and was la..."
+    },
+    {
+      "name": "Aleksandr Viktorenko",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Deceased",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksandr2520viktorenko_image_20181201224005.jpg",
+      "bio": "Aleksandr Stepanovich Viktorenko (Александр Степанович Викторенко) was a Soviet cosmonaut. He was born in Olginka, North-Kazakhstan Oblast, Kazakh SSR on March 29, 1947. He is married with two children. He was selected as a cosmonaut on March 23, 1978, and retired on May 30, 1997. During his acti..."
+    },
+    {
+      "name": "Aleksei Gubarev",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Deceased",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksei2520gubarev_image_20181128233440.jpg",
+      "bio": "Aleksei Aleksandrovich Gubarev (Russian: Алексе́й Алекса́ндрович Гу́барев; 29 March 1931 – 21 February 2015) was a Soviet cosmonaut who flew on two space flights: Soyuz 17 and Soyuz 28."
+    },
+    {
+      "name": "Aleksei Yeliseyev",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksei_yelisey_image_20200713114929.jpg",
+      "bio": "Aleksei Stanislavovich Yeliseyev (Russian: Алексей Станиславович Елисеев; born July 13, 1934) is a retired Soviet cosmonaut who flew on three missions in the Soyuz programme as a flight engineer: Soyuz 5, Soyuz 8, and Soyuz 10. Aleksei's father was Lithuanian with the last name Kuraitis, who died..."
+    },
+    {
+      "name": "Aleksey Ovchinin",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Active",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/aleksey2520ovchinin_image_20181201184641.jpg",
+      "bio": "Aleksey Nikolayevich Ovchinin born 28 September 1971 in Rybinsk, Yaroslavl Oblast, Russian SFSR is a Russian Air Force Major and cosmonaut, who was selected in 2006. Ovchinin made his first spaceflight in 2016, and was assigned as Commander of Soyuz MS-10 in 2018."
+    },
+    {
+      "name": "Aleš Svoboda",
+      "nationality": "Czech",
+      "agency": "European Space Agency",
+      "status": "In-Training",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/ale25c525a1_s_image_20260612081413.jpg",
+      "bio": "Aleš Svoboda is a Czech fighter pilot and astronaut. In November 2022, he was selected as member of the European Space Agency reserve team of astronauts, thus he is the first astronaut of the independent Czech Republic."
+    },
+    {
+      "name": "Alexander Gerst",
+      "nationality": "German",
+      "agency": "European Space Agency",
+      "status": "Active",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alexander2520gerst_image_20181127211820.jpg",
+      "bio": "Alexander Gerst is a German European Space Agency astronaut and geophysicist, who was selected in 2009 to take part in space training. He was part of the International Space Station Expedition 40 and 41 from May to November 2014. Gerst returned to space on June 6, 2018, as part of Expedition 56/5..."
+    },
+    {
+      "name": "Alexander Grebenkin",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Active",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alexander_grebe_image_20230304134134.jpeg",
+      "bio": "Alexander Grebenkin is a Russian cosmonaut with a background in radio communications engineering."
+    },
+    {
+      "name": "Alexander Misurkin",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Active",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alexander_misur_image_20211102151859.jpg",
+      "bio": "Alexander Alexanderovich Misurkin (Russian: Aлександр Aлександрович Мисуркин) born on September 23, 1977, a major in the Russian Air Force, is a Russian cosmonaut, selected in 2006. He flew aboard Soyuz TMA-08M on 28 March 2013 as his first space mission, and launched on Soyuz MS-06 as his second..."
+    },
+    {
+      "name": "Alexey Leonov",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Deceased",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alexey2520leonov_image_20181129235111.jpg",
+      "bio": "Alexey Arkhipovich Leonov (Russian: Алексе́й Архи́пович Лео́нов, IPA: [ɐlʲɪˈksʲej ɐˈrxʲipəvʲɪtɕ lʲɪˈonəf]; born 30 May 1934) is a retired Soviet/Russian cosmonaut, Air Force Major general, writer and artist. On 18 March 1965, he became the first human to conduct extravehicular activity (EVA), exi..."
+    },
+    {
+      "name": "Alexey Zubritsky",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Active",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alexey_zubritsk_image_20240828194754.jpg",
+      "bio": "Russian cosmonaut from the 2018 selection"
+    },
+    {
+      "name": "Alfred Worden",
+      "nationality": "American",
+      "agency": "National Aeronautics and Space Administration",
+      "status": "Deceased",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alfred2520worden_image_20181202090203.jpg",
+      "bio": "Alfred Merrill \"Al\" Worden is an American astronaut and engineer who was the Command Module Pilot for the Apollo 15 lunar mission in 1971. He is one of only 24 people to have flown to the Moon."
+    },
+    {
+      "name": "Ali AlQarni",
+      "nationality": "Saudi",
+      "agency": "Saudi Space Agency",
+      "status": "Active",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/ali_alqarni_image_20230213181809.jpg",
+      "bio": "Ali AlQarni is an astronaut representing the Kingdom of Saudi Arabia and serving as a mission specialist on the Ax-2 mission. AlQarni graduated with a Bachelor of Aerospace Science from King Faisal Air Academy. AlQarni is an Air Force captain and fighter pilot. He has 12 years of experience flyin..."
+    },
+    {
+      "name": "Allie Kuehner",
+      "nationality": "American",
+      "agency": "Blue Origin",
+      "status": "Occasional Spaceflight",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/allie_kuehner_o_image_20250621125015.jpg",
+      "bio": "Environmentalist and dedicated conservationist"
+    },
+    {
+      "name": "Alper Gezeravci",
+      "nationality": "Turkish",
+      "agency": "Turkish Air Force",
+      "status": "Active",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alper_gezeravci_image_20231230181038.jpeg",
+      "bio": "Fighter pilot trained on F16, first Turkish astronaut."
+    },
+    {
+      "name": "Alvin Drew",
+      "nationality": "American",
+      "agency": "National Aeronautics and Space Administration",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/alvin_drew_image_20220911034007.jpeg",
+      "bio": "Colonel Benjamin Alvin Drew is a United States Air Force officer and a NASA astronaut. He has been on two spaceflights; the first was the Space Shuttle mission STS-118 to the International Space Station, in August 2007. Drew's second spaceflight took place in March 2011 on STS-133, another missio..."
+    },
+    {
+      "name": "Amanda Nguyen",
+      "nationality": "American Vietnamese",
+      "agency": "Blue Origin",
+      "status": "Occasional Spaceflight",
+      "image_url": null,
+      "bio": "Amanda Ngoc Nguyễn is a social entrepreneur, civil rights activist, and the chief executive officer and founder of Rise, a non-governmental civil rights organization. Nguyen drafted the Sexual Assault Survivors' Rights Act, a bill that passed unanimously through the United States Congress."
+    },
+    {
+      "name": "Amy Medina Jorge",
+      "nationality": "Puerto Rican",
+      "agency": "Blue Origin",
+      "status": "Occasional Spaceflight",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/amy_medina_jorg_image_20250601063335.jpg",
+      "bio": "High school and middle school STEM teacher"
+    },
+    {
+      "name": "Anastatia Mayers",
+      "nationality": "Antiguan",
+      "agency": "Virgin Galactic",
+      "status": "Occasional Spaceflight",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/anastatia_mayer_image_20230718080218.png",
+      "bio": "Passenger on Galactic-02, winners of Space for Humanity draw."
+    },
+    {
+      "name": "Anatoli Ivanishin",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/anatoli_ivanish_image_20200402084238.jpg",
+      "bio": "Anatoli Alekseyevich Ivanishin (Russian: Анатолий Алексеевич Иванишин; born 15 January 1969 in Irkutsk) is a Russian cosmonaut. His first visit to space was to the International Space Station on board the Soyuz TMA-22 spacecraft as an Expedition 29 / Expedition 30 crew member, launching in Novemb..."
+    },
+    {
+      "name": "Anatoli Levchenko",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Deceased",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/anatoli2520levchenko_image_20181129235328.jpeg",
+      "bio": "Anatoli Semyonovich Levchenko (Russian: Анатолий Семёнович Левченко; May 5, 1941 – August 6, 1988) was a Soviet cosmonaut. Levchenko was planned to be the back-up commander of the first Buran space shuttle flight, and in March 1987 he began extensive training for a Soyuz spaceflight, intended to..."
+    },
+    {
+      "name": "Anatoly Artsebarsky",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Retired",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/anatoly2520artsebarsky_image_20181128215348.jpg",
+      "bio": "Anatoly Pavlovich Artsebarsky (Ukrainian: Анатолій Павлович Арцебарський) (Russian: Анатолий Павлович Арцебарский; born 9 September 1956) is a former Soviet cosmonaut. He became a cosmonaut in 1985. Artsebarsky has spent almost 5 months in space on a single spaceflight. In 1991, he flew aboard So..."
+    },
+    {
+      "name": "Anatoly Berezovoy",
+      "nationality": "Russian",
+      "agency": "Russian Federal Space Agency (ROSCOSMOS)",
+      "status": "Deceased",
+      "image_url": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/anatoly2520berezovoy_image_20181128223323.jpg",
+      "bio": "Anatoly Nikolayevich Berezovoy (Russian: Анато́лий Никола́евич Березово́й; 11 April 1942 – 20 September 2014) was a Soviet cosmonaut. On 27 April 1970 he was selected as a cosmonaut. In 1982 he flew as Commander on Soyuz T-5 on the first mission to the Salyut 7 space station, returning to Earth o..."
+    }
+  ]
 }

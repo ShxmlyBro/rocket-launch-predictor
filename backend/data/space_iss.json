@@ -1,4 +1,12 @@
 {
   "_note": "sample data",
-  "data": {}
+  "as_of": "2026-11-14T09:08:11.615454+00:00",
+  "data": {
+    "latitude": 48.741826860983,
+    "longitude": 150.13428693467,
+    "altitude": 420.64289702582,
+    "velocity": 27600.56076625,
+    "visibility": "eclipsed",
+    "timestamp": 1794647291
+  }
 }

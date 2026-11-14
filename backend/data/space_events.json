@@ -1,4 +1,217 @@
 {
   "_note": "sample data",
-  "items": []
+  "as_of": "2026-11-14T09:08:07.324400+00:00",
+  "items": [
+    {
+      "name": "US EVA-101",
+      "type": "EVA",
+      "date": "2026-11-05T12:00:00Z",
+      "description": "NASA astronaut Anil Menon and CSA astronaut Joshua Kutryk will install and deploy the eighth and final IROSA on the 3B channel of the space station, completing the power augmentation upgrades. The final two roll-out solar arrays will complete the space station’s power system augmentation. Togethe...",
+      "agencies": [
+        "National Aeronautics and Space Administration"
+      ],
+      "info_url": "https://www.nasa.gov/news-release/nasa-to-host-news-conference-previewing-us-spacewalks-100-101/"
+    },
+    {
+      "name": "NASA Moon Base: November 2026 Update (Nov. 7, 2026)",
+      "type": "Press Event",
+      "date": "2026-11-07T22:00:00Z",
+      "description": "Press conference at the MAX POWER aerospace expo that will provide an update on the upcoming Moon Base near the lunar South Pole. Participants in this news conference, taking place at NASA's Kennedy Space Center, include: - NASA Administrator Jared Isaacman - Carlos García-Galán, manager, Moon Ba...",
+      "agencies": [
+        "National Aeronautics and Space Administration"
+      ],
+      "info_url": null
+    },
+    {
+      "name": "BepiColombo Mercury Orbit Insertion",
+      "type": "Orbital Insertion",
+      "date": "2026-11-30T00:00:00Z",
+      "description": "Orbital insertion around Mercury of the ESA-JAXA BepiColombo mission.",
+      "agencies": [
+        "European Space Agency",
+        "Japan Aerospace Exploration Agency"
+      ],
+      "info_url": "https://sci.esa.int/web/bepicolombo/-/47346-fact-sheet"
+    },
+    {
+      "name": "Solar Orbiter Venus Flyby",
+      "type": "Flyby",
+      "date": "2026-12-24T00:00:00Z",
+      "description": "Solar Orbiter, a partnership between ESA and NASA, will perform a gravity assist maneuver with Venus on December 24, 2026. Throughout its mission it also makes repeated gravity assist flybys of Venus to get closer to the Sun, and to change its orbital inclination, boosting it out of the ecliptic...",
+      "agencies": [
+        "European Space Agency",
+        "National Aeronautics and Space Administration"
+      ],
+      "info_url": "https://www.esa.int/ESA_Multimedia/Images/2020/01/Solar_Orbiter_journey_around_the_Sun"
+    },
+    {
+      "name": "Europa Clipper Earth Flyby",
+      "type": "Flyby",
+      "date": "2026-12-31T00:00:00Z",
+      "description": "NASA’s Europa Clipper will fly by Earth for a second and final gravity assist on its way to Jupiter.",
+      "agencies": [
+        "Jet Propulsion Laboratory",
+        "National Aeronautics and Space Administration"
+      ],
+      "info_url": "https://europa.nasa.gov/mission/timeline/"
+    },
+    {
+      "name": "SNC-1 Dream Chaser Berthing",
+      "type": "Spacecraft Berthing",
+      "date": "2026-12-31T00:00:00Z",
+      "description": "NASA TV will livestream the rendezvous and capture of Sierra Nevada Corporation's Dream Chaser cargo craft to the International Space Station.",
+      "agencies": [
+        "National Aeronautics and Space Administration",
+        "Sierra Nevada Corporation"
+      ],
+      "info_url": null
+    },
+    {
+      "name": "Boeing Starliner-1 Docking",
+      "type": "Docking",
+      "date": "2026-12-31T00:00:00Z",
+      "description": "The Starliner-1 spacecraft will dock autonomously to the International Space Station, carrying four astronauts to the International Space Station.",
+      "agencies": [
+        "Boeing",
+        "National Aeronautics and Space Administration"
+      ],
+      "info_url": null
+    },
+    {
+      "name": "Boeing Starliner-1 Landing",
+      "type": "Spacecraft Landing",
+      "date": "2026-12-31T00:00:00Z",
+      "description": "Following its deorbit burn, the Boeing CST-100 Starliner will reenter the Earth's atmosphere and land at the White Sands Missile Range using its parachutes.",
+      "agencies": [
+        "Boeing",
+        "National Aeronautics and Space Administration"
+      ],
+      "info_url": null
+    },
+    {
+      "name": "Boeing Starliner-1 Undocking",
+      "type": "Spacecraft Undocking",
+      "date": "2026-12-31T00:00:00Z",
+      "description": "The Boeing CST-100 Starliner will undock from the International Space Station and conduct a deorbit burn as part of its first operational mission. Following the deorbit burn the capsule will renter the Earth's atmosphere and land at the 'White Sands Missile Range' using its parachutes.",
+      "agencies": [
+        "Boeing",
+        "National Aeronautics and Space Administration"
+      ],
+      "info_url": null
+    },
+    {
+      "name": "SNC-1 Dream Chaser Release & Reentry",
+      "type": "Spacecraft Release",
+      "date": "2026-12-31T01:00:00Z",
+      "description": "The Sierra Nevada Corporation SNC-1 Dream Chaser will be unberthed from the ISS before re-entering the Earth's atmosphere and landing at Kennedy Space Center.",
+      "agencies": [
+        "National Aeronautics and Space Administration",
+        "Sierra Nevada Corporation"
+      ],
+      "info_url": null
+    },
+    {
+      "name": "SNC-1 Dream Chaser Landing",
+      "type": "Spacecraft Landing",
+      "date": "2026-12-31T02:00:00Z",
+      "description": "The Sierra Nevada Corporation SNC-1 Dream Chaser will land autonomously at the Launch and Landing Facility of Kennedy Space Center.",
+      "agencies": [
+        "National Aeronautics and Space Administration",
+        "Sierra Nevada Corporation"
+      ],
+      "info_url": null
+    },
+    {
+      "name": "Lucy Trojan Asteroid (3548) Eurybates & Queta Flyby",
+      "type": "Flyby",
+      "date": "2027-08-12T00:00:00Z",
+      "description": "Flyby of the Trojan asteroid (3548) Eurybates and its satellite Queta by NASA's Lucy mission.",
+      "agencies": [
+        "National Aeronautics and Space Administration"
+      ],
+      "info_url": "https://lucy.swri.edu/timeline.html"
+    },
+    {
+      "name": "Lucy Trojan Asteroid (15094) Polymele Flyby",
+      "type": "Flyby",
+      "date": "2027-09-15T00:00:00Z",
+      "description": "Flyby of the Trojan asteroid (15094) Polymele by NASA's Lucy mission.",
+      "agencies": [
+        "National Aeronautics and Space Administration"
+      ],
+      "info_url": "https://lucy.swri.edu/timeline.html"
+    },
+    {
+      "name": "Hayabusa2 Earth Flyby",
+      "type": "Flyby",
+      "date": "2027-12-31T00:00:00Z",
+      "description": "As part of its mission extension, JAXA's Hayabusa2 spacecraft will fly by Earth on its way to asteroid 1998 KY26.",
+      "agencies": [
+        "Japan Aerospace Exploration Agency"
+      ],
+      "info_url": null
+    },
+    {
+      "name": "Solar Orbiter Venus Flyby",
+      "type": "Flyby",
+      "date": "2028-03-18T00:00:00Z",
+      "description": "Solar Orbiter, a partnership between ESA and NASA, will perform a gravity assist maneuver with Venus on March 17, 2028. Throughout its mission it also makes repeated gravity assist flybys of Venus to get closer to the Sun, and to change its orbital inclination, boosting it out of the ecliptic pla...",
+      "agencies": [
+        "European Space Agency",
+        "National Aeronautics and Space Administration"
+      ],
+      "info_url": "https://www.esa.int/ESA_Multimedia/Images/2020/01/Solar_Orbiter_journey_around_the_Sun"
+    },
+    {
+      "name": "Lucy Trojan Asteroid (11351) Leucus Flyby",
+      "type": "Flyby",
+      "date": "2028-04-18T00:00:00Z",
+      "description": "Flyby of the Trojan asteroid (11351) Leucus by NASA's Lucy mission.",
+      "agencies": [
+        "National Aeronautics and Space Administration"
+      ],
+      "info_url": "https://lucy.swri.edu/timeline.html"
+    },
+    {
+      "name": "Hayabusa2 Earth Flyby",
+      "type": "Flyby",
+      "date": "2028-06-30T00:00:00Z",
+      "description": "As part of its mission extension, JAXA's Hayabusa2 spacecraft will fly by Earth on its way to asteroid 1998 KY26.",
+      "agencies": [
+        "Japan Aerospace Exploration Agency"
+      ],
+      "info_url": null
+    },
+    {
+      "name": "Lucy Trojan Asteroid (21900) Orus Flyby",
+      "type": "Flyby",
+      "date": "2028-11-11T00:00:00Z",
+      "description": "Flyby of the Trojan asteroid (21900) Orus by NASA's Lucy mission.",
+      "agencies": [
+        "National Aeronautics and Space Administration"
+      ],
+      "info_url": "https://lucy.swri.edu/timeline.html"
+    },
+    {
+      "name": "Juice Earth Flyby",
+      "type": "Flyby",
+      "date": "2029-01-31T00:00:00Z",
+      "description": "Fourth flyby of ESA's Jupiter Icy Moons Explorer (Juice) mission on its way to the Jovian system.",
+      "agencies": [
+        "European Space Agency"
+      ],
+      "info_url": null
+    },
+    {
+      "name": "Solar Orbiter Venus Flyby",
+      "type": "Flyby",
+      "date": "2029-06-10T00:00:00Z",
+      "description": "Solar Orbiter, a partnership between ESA and NASA, will perform a gravity assist maneuver with Venus on June 10, 2029. Throughout its mission it also makes repeated gravity assist flybys of Venus to get closer to the Sun, and to change its orbital inclination, boosting it out of the ecliptic plan...",
+      "agencies": [
+        "European Space Agency",
+        "National Aeronautics and Space Administration"
+      ],
+      "info_url": "https://www.esa.int/ESA_Multimedia/Images/2020/01/Solar_Orbiter_journey_around_the_Sun"
+    }
+  ]
 }
