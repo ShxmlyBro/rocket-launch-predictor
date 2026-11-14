@@ -15,6 +15,7 @@ from typing import Optional
 import httpx
 
 from model_service import DISCLAIMER, ModelService
+from space_cache import ll2_limiter, note_rate_limited
 
 logger = logging.getLogger(__name__)
 
@@ -89,6 +90,9 @@ def fetch_launches() -> list:
     key = os.getenv("LL2_API_KEY")
     if key:
         headers["Authorization"] = f"Token {key}"
+    # Shared with the /space endpoints: one hourly cap and one Retry-After for all LL2.
+    if not ll2_limiter.acquire():
+        raise UpstreamError("Launch Library call skipped (hourly cap or Retry-After)")
     try:
         resp = httpx.get(
             LL2_URL,
@@ -97,6 +101,7 @@ def fetch_launches() -> list:
             timeout=TIMEOUT,
         )
         if resp.status_code == 429:
+            note_rate_limited(resp.headers)
             raise UpstreamError("Launch Library rate limited (429)")
         resp.raise_for_status()
         return resp.json()["results"]
