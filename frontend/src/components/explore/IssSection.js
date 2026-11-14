@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import React, { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import { errorMessage, getSpaceIss } from "../../api";
 import { mapPosition, pushTrail } from "../../utils/space";
 import { SkeletonPanel } from "../Loading";
@@ -46,27 +46,31 @@ function IssMap({ lat, lon }) {
   );
 }
 
+// Catches errors thrown while rendering the globe (or loading its chunk).
+// Errors from library callbacks and timers are not caught here, so the globe
+// also reports those through its onFail prop.
 class GlobeBoundary extends React.Component {
   state = { failed: false };
   static getDerivedStateFromError() {
     return { failed: true };
   }
   componentDidCatch() {
-    // Nothing to log: the notice below tells the user what happened.
+    this.props.onFail();
   }
   render() {
-    if (this.state.failed) {
-      return (
-        <div>
-          <p className="small text-body-secondary mb-2" role="status">
-            3D view unavailable on this device
-          </p>
-          {this.props.fallback}
-        </div>
-      );
-    }
-    return this.props.children;
+    return this.state.failed ? null : this.props.children;
   }
+}
+
+function GlobeFallback({ map }) {
+  return (
+    <div>
+      <p className="small text-body-secondary mb-2" role="status">
+        3D view unavailable on this device
+      </p>
+      {map}
+    </div>
+  );
 }
 
 const lastUpdated = (d) => {
@@ -78,6 +82,8 @@ export default function IssSection() {
   const [state, setState] = useState({ payload: null, error: null });
   const [trail, setTrail] = useState([]);
   const [view, setView] = useState("3d");
+  const [globeFailed, setGlobeFailed] = useState(false);
+  const onGlobeFail = useCallback(() => setGlobeFailed(true), []);
 
   // Polls every 15 s, but only while this section is mounted and the browser tab
   // is visible. The cleanup clears the interval, so leaving the sub-section, the
@@ -149,10 +155,12 @@ export default function IssSection() {
                 2D map
               </button>
             </div>
-            {view === "3d" ? (
-              <GlobeBoundary fallback={map}>
+            {view === "3d" && globeFailed ? (
+              <GlobeFallback map={map} />
+            ) : view === "3d" ? (
+              <GlobeBoundary onFail={onGlobeFail}>
                 <Suspense fallback={<div className="skeleton iss-globe-skeleton" aria-label="Loading 3D globe" role="status" />}>
-                  <IssGlobe lat={d.latitude} lon={d.longitude} trail={trail} />
+                  <IssGlobe lat={d.latitude} lon={d.longitude} trail={trail} onFail={onGlobeFail} />
                 </Suspense>
               </GlobeBoundary>
             ) : (

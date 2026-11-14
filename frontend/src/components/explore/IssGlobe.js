@@ -3,10 +3,15 @@ import Globe from "react-globe.gl";
 import { feature } from "topojson-client";
 import land from "world-atlas/land-110m.json";
 import { FiCrosshair, FiNavigation } from "react-icons/fi";
+import { MeshPhongMaterial } from "three";
 import { unwrapLon } from "../../utils/space";
+import { prepareLand } from "../../utils/land";
 
 // Land outlines: Natural Earth (public domain), via world-atlas. Bundled, never fetched.
-const LAND = feature(land, land.objects.land).features;
+// Polygons that cross +-180 are cut first, because H3 rejects them.
+function buildLand() {
+  return prepareLand(feature(land, land.objects.land).features);
+}
 
 const GLOBE_COLOR = "#0b1030";
 const ISS_COLOR = "#fbbf24";
@@ -72,7 +77,7 @@ export default function IssGlobe(props) {
   return <GlobeView {...props} />;
 }
 
-function GlobeView({ lat, lon, trail }) {
+function GlobeView({ lat, lon, trail, onFail }) {
   const wrapRef = useRef(null);
   const globeRef = useRef(null);
   const interacted = useRef(false);
@@ -81,6 +86,42 @@ function GlobeView({ lat, lon, trail }) {
   const { w, h } = useSize(wrapRef);
   const colors = useThemeColors();
   const noMotion = reduced();
+
+  // Library callbacks and timers are outside React's error boundaries, so
+  // anything that goes wrong there is reported through onFail instead.
+  const fail = useCallback(() => onFail?.(), [onFail]);
+
+  const landData = useMemo(() => {
+    try {
+      return buildLand();
+    } catch (e) {
+      return null;
+    }
+  }, []);
+  useEffect(() => {
+    if (!landData) fail();
+  }, [landData, fail]);
+
+  // globeMaterial is a prop of react-globe.gl, not a ref method. Built from the
+  // same three instance, once, and disposed on unmount.
+  const material = useMemo(
+    () => new MeshPhongMaterial({ color: GLOBE_COLOR, emissive: "#0a0f2e", shininess: 6 }),
+    []
+  );
+  useEffect(() => () => material.dispose(), [material]);
+
+  // H3 or WebGL errors thrown from the library's own timers reach window.
+  useEffect(() => {
+    const onError = (e) => {
+      const err = e.error || {};
+      if (/H3/.test(err.name || "") || /WebGL|H3/i.test(e.message || "")) {
+        e.preventDefault?.();
+        fail();
+      }
+    };
+    window.addEventListener("error", onError);
+    return () => window.removeEventListener("error", onError);
+  }, [fail]);
 
   const lng = trail?.length ? trail[trail.length - 1].lng : lon;
 
@@ -121,21 +162,32 @@ function GlobeView({ lat, lon, trail }) {
     if (c) c.autoRotate = false;
   }, []);
 
+  const lostRef = useRef(null);
   const onReady = useCallback(() => {
-    const g = globeRef.current;
-    if (!g) return;
-    g.pointOfView({ lat, lng, altitude: 2.4 }, 0);
-    g.globeMaterial().color.set(GLOBE_COLOR);
-    g.globeMaterial().emissive?.set("#0a0f2e");
-    const c = g.controls();
-    c.enablePan = false;
-    c.minDistance = 160;
-    c.maxDistance = 520;
-    c.autoRotate = !noMotion;
-    c.autoRotateSpeed = 0.5;
-    c.addEventListener("start", stopRotate);
-    g.renderer().setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-  }, [lat, lng, noMotion, stopRotate]);
+    try {
+      const g = globeRef.current;
+      if (!g) return;
+      g.pointOfView({ lat, lng, altitude: 2.4 }, 0);
+      const c = g.controls();
+      c.enablePan = false;
+      c.minDistance = 160;
+      c.maxDistance = 520;
+      c.autoRotate = !noMotion;
+      c.autoRotateSpeed = 0.5;
+      c.addEventListener("start", stopRotate);
+      const r = g.renderer();
+      r.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      const canvas = r.domElement;
+      const onLost = (ev) => {
+        ev.preventDefault();
+        fail();
+      };
+      canvas.addEventListener("webglcontextlost", onLost);
+      lostRef.current = () => canvas.removeEventListener("webglcontextlost", onLost);
+    } catch (e) {
+      fail();
+    }
+  }, [lat, lng, noMotion, stopRotate, fail]);
 
   // Hidden browser tab: stop rendering and rotating. Back: resume.
   useEffect(() => {
@@ -161,6 +213,7 @@ function GlobeView({ lat, lon, trail }) {
       const g = ref.current;
       if (!g) return;
       try {
+        lostRef.current?.();
         g.controls()?.removeEventListener("start", stopRotate);
         g.pauseAnimation();
         const r = g.renderer();
@@ -197,7 +250,8 @@ function GlobeView({ lat, lon, trail }) {
             showAtmosphere
             atmosphereColor={colors.glow}
             atmosphereAltitude={0.18}
-            hexPolygonsData={LAND}
+            globeMaterial={material}
+            hexPolygonsData={landData || []}
             hexPolygonResolution={3}
             hexPolygonMargin={0.4}
             hexPolygonColor={() => colors.land}

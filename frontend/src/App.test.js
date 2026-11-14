@@ -19,8 +19,12 @@ jest.mock("./api", () => ({
 // Setting globalThis.__GLOBE_THROWS__ makes it throw, to test the error boundary.
 jest.mock("./components/explore/IssGlobe", () => ({
   __esModule: true,
-  default: ({ lat, lon, trail }) => {
+  default: ({ lat, lon, trail, onFail }) => {
     if (globalThis.__GLOBE_THROWS__) throw new Error("no webgl");
+    // Simulates a library callback or timer failing after render (not catchable by a boundary).
+    if (globalThis.__GLOBE_FAILS_ON_READY__) {
+      setTimeout(() => onFail(), 0);
+    }
     return (
       <div data-testid="globe-stub">
         globe {lat},{lon} trail {trail.length}
@@ -421,6 +425,7 @@ describe("Explore tab", () => {
 
     afterEach(() => {
       delete globalThis.__GLOBE_THROWS__;
+      delete globalThis.__GLOBE_FAILS_ON_READY__;
     });
 
     const advance = (ms) => act(async () => { jest.advanceTimersByTime(ms); });
@@ -473,6 +478,16 @@ describe("Explore tab", () => {
       expect(await screen.findByText("3D view unavailable on this device")).toBeInTheDocument();
       expect(screen.getByRole("img", { name: /latitude and longitude grid/i })).toBeInTheDocument();
       expect(screen.getByText("10.00°")).toBeInTheDocument();
+    });
+
+    test("falls back to the 2D map when the globe fails after render", async () => {
+      globalThis.__GLOBE_FAILS_ON_READY__ = true;
+      await openIss();
+      await screen.findByTestId("globe-stub");
+      await advance(10);
+      expect(await screen.findByText("3D view unavailable on this device")).toBeInTheDocument();
+      expect(screen.queryByTestId("globe-stub")).toBeNull();
+      expect(screen.getByRole("img", { name: /latitude and longitude grid/i })).toBeInTheDocument();
     });
 
     test("globe view keeps one request per poll and stops after leaving", async () => {
