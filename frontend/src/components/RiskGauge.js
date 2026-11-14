@@ -20,7 +20,7 @@ const clamp01 = (x) => Math.max(0, Math.min(1, x));
 
 // Semicircle gauge of the model risk score (0 to 1). Zones are relative to the
 // threshold from the API: teal below, amber near, red at or above.
-export default function RiskGauge({ score, threshold, size = "md" }) {
+export default function RiskGauge({ score, threshold, size = "md", compact = false }) {
   const [ref, seen] = useInView();
   const s = clamp01(score);
   const hasT = typeof threshold === "number" && !Number.isNaN(threshold);
@@ -34,7 +34,7 @@ export default function RiskGauge({ score, threshold, size = "md" }) {
   const near = hasT ? t * 0.8 : 0;
 
   return (
-    <div className={`risk-gauge ${size}`} ref={ref}>
+    <div className={`risk-gauge ${size} ${compact ? "compact" : ""}`} ref={ref}>
       <div className="gauge-title">Model risk score</div>
       <div
         className="gauge-svg-wrap"

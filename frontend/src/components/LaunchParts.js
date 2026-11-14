@@ -107,7 +107,12 @@ export function RiskArea({ launch, size }) {
           percentile={launch.risk_percentile}
         />
       )}
-      <RiskGauge score={launch.risk_score} threshold={launch.threshold} size={size} />
+      <RiskGauge
+        score={launch.risk_score}
+        threshold={launch.threshold}
+        size={size}
+        compact={hasReading(launch)}
+      />
       {limited && (
         <p className="small low-note text-center mb-0 mt-2">
           Some inputs were not in the training data, so treat this as indicative only.

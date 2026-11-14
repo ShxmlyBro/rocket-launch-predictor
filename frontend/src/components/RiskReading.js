@@ -10,6 +10,9 @@ export function formatRate(rate) {
   return rate > 0 && p < 1 ? "less than 1%" : `${p}%`;
 }
 
+// Short form for the big number: "12%", or "<1%".
+export const bigRate = (rate) => (formatRate(rate) === "less than 1%" ? "<1%" : formatRate(rate));
+
 export const EXPLAINER = [
   "A model compares this launch (rocket, agency, site and weather) with past launches and gives it a score.",
   "The score is not the chance that this launch will fail.",
@@ -50,6 +53,9 @@ export default function RiskReading({ similarRate, percentile }) {
   return (
     <div className="risk-reading">
       <div className="rr-label">Risk reading</div>
+      <div className="rr-big" aria-hidden="true">
+        {bigRate(similarRate)}
+      </div>
       <p className="rr-headline">
         Past launches with a similar score had a failure or partial failure about{" "}
         {formatRate(similarRate)} of the time

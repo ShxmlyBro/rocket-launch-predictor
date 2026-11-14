@@ -171,6 +171,7 @@ export default function WhatIfTab() {
                 score={result.risk_probability}
                 threshold={result.threshold}
                 size="lg"
+                compact={hasReading(result)}
               />
               <p className="text-body-secondary small text-center mt-2">
                 This score ranks relative risk. It is not a calibrated
