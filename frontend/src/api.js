@@ -11,6 +11,12 @@ const client = axios.create({
 export const getFeatures = () => client.get("/features").then((r) => r.data);
 export const getEdaStats = () => client.get("/eda-stats").then((r) => r.data);
 export const getUpcoming = () => client.get("/upcoming").then((r) => r.data);
+export const getSpaceAstronauts = () =>
+  client.get("/space/astronauts").then((r) => r.data);
+export const getSpaceEvents = () => client.get("/space/events").then((r) => r.data);
+export const getSpaceMissions = () => client.get("/space/missions").then((r) => r.data);
+export const getSpaceNews = () => client.get("/space/news").then((r) => r.data);
+export const getSpaceIss = () => client.get("/space/iss").then((r) => r.data);
 export const predict =(payload) =>
   client.post("/predict", payload).then((r) => r.data);
 
