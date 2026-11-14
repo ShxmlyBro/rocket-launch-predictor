@@ -8,7 +8,7 @@ function AstronautCard({ a }) {
   const [open, setOpen] = useState(false);
   const long = (a.bio || "").length > BIO_SHORT;
   return (
-    <div className="card h-100 space-card">
+    <div className="card h-100 space-card hover-lift">
       <div className="card-body d-flex gap-3">
         <SpaceImage src={a.image_url} alt={a.name || "Astronaut"} className="astro-img" />
         <div className="min-w-0">

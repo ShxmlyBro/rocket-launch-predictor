@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FiBookOpen, FiCalendar, FiGlobe, FiRadio, FiTarget, FiUsers } from "react-icons/fi";
+import PillNav from "./PillNav";
 import AstronautsSection from "./explore/AstronautsSection";
 import BasicsSection from "./explore/BasicsSection";
 import EventsSection from "./explore/EventsSection";
@@ -7,32 +9,25 @@ import MissionsSection from "./explore/MissionsSection";
 import NewsSection from "./explore/NewsSection";
 
 const SECTIONS = [
-  { id: "astronauts", label: "Astronauts" },
-  { id: "events", label: "Events" },
-  { id: "missions", label: "Missions" },
-  { id: "news", label: "News" },
-  { id: "iss", label: "ISS now" },
-  { id: "basics", label: "Space basics" },
+  { id: "astronauts", label: "Astronauts", Icon: FiUsers },
+  { id: "events", label: "Events", Icon: FiCalendar },
+  { id: "missions", label: "Missions", Icon: FiTarget },
+  { id: "news", label: "News", Icon: FiRadio },
+  { id: "iss", label: "ISS now", Icon: FiGlobe },
+  { id: "basics", label: "Space basics", Icon: FiBookOpen },
 ];
 
 export default function ExploreTab({ space }) {
   const [section, setSection] = useState("astronauts");
   return (
     <div>
-      <ul className="nav nav-pills flex-wrap gap-1 mb-3" aria-label="Explore sections">
-        {SECTIONS.map(({ id, label }) => (
-          <li className="nav-item" key={id}>
-            <button
-              type="button"
-              aria-pressed={section === id}
-              className={`nav-link py-1 ${section === id ? "active" : ""}`}
-              onClick={() => setSection(id)}
-            >
-              {label}
-            </button>
-          </li>
-        ))}
-      </ul>
+      <PillNav
+        items={SECTIONS}
+        value={section}
+        onChange={setSection}
+        label="Explore sections"
+        className="mb-3 sub-nav"
+      />
 
       {/* Only the active section is mounted, so the ISS poll stops when it is left. */}
       {section === "astronauts" && <AstronautsSection space={space} />}

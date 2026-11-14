@@ -1,19 +1,10 @@
 import React, { useMemo, useState } from "react";
 import { FiAlertTriangle, FiRefreshCw, FiSearch } from "react-icons/fi";
 import LaunchCard from "./LaunchCard";
-import { SkeletonCards, WakingNotice } from "./Loading";
-import { countFullMatches, formatDate } from "../utils/format";
-
-const time = (l) => {
-  const t = Date.parse(l.net);
-  return Number.isNaN(t) ? Infinity : t;
-};
-
-// Limited-match launches carry no flagged verdict, so they are never ranked by risk.
-const riskKey = (l) =>
-  l.match_quality === "full" && typeof l.risk_score === "number"
-    ? l.risk_score
-    : -1;
+import NextLaunchHero from "./NextLaunchHero";
+import StatusPill from "./StatusPill";
+import { SkeletonCards, SkeletonHero, WakingNotice } from "./Loading";
+import { formatDate, nextLaunch, sortByDate, sortByRisk } from "../utils/format";
 
 export default function LaunchesTab({ upcoming }) {
   const { data, error, loading, loadedAt, refresh } = upcoming;
@@ -36,17 +27,26 @@ export default function LaunchesTab({ upcoming }) {
         .filter(Boolean)
         .some((f) => f.toLowerCase().includes(q));
     });
-    return [...list].sort((a, b) =>
-      sort === "risk"
-        ? riskKey(b) - riskKey(a) || time(a) - time(b)
-        : time(a) - time(b)
-    );
+    return sort === "risk" ? sortByRisk(list) : sortByDate(list);
   }, [launches, provider, query, sort]);
+
+  // The hero shows the soonest future launch when no filter is active.
+  // Picked when the data changes, not on every tick, so the grid does not
+  // re-render each second. A launch that passes shows "Launch window open".
+  const filtering = provider !== "all" || query.trim() !== "";
+  const hero = useMemo(
+    () => (filtering ? null : nextLaunch(launches, Date.now())),
+    [filtering, launches]
+  );
+  const grid = hero ? visible.filter((l) => l !== hero) : visible;
 
   const header = (
     <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
       <div>
-        <h2 className="h4 mb-0">Upcoming launches</h2>
+        <h2 className="h4 mb-0">
+          Upcoming launches{" "}
+          {data?.stale && <StatusPill kind="sample" />}
+        </h2>
         {data?.note && (
           <p className="small text-body-secondary mb-0">{data.note}</p>
         )}
@@ -77,6 +77,7 @@ export default function LaunchesTab({ upcoming }) {
     return (
       <div>
         {header}
+        <SkeletonHero />
         <SkeletonCards />
         <WakingNotice />
       </div>
@@ -93,8 +94,6 @@ export default function LaunchesTab({ upcoming }) {
       </div>
     );
   }
-
-  const fullCount = countFullMatches(launches);
 
   return (
     <div>
@@ -116,16 +115,11 @@ export default function LaunchesTab({ upcoming }) {
         </div>
       )}
 
-      <div className="alert alert-info" role="status">
-        <strong>Model coverage:</strong> {fullCount} of {launches.length}{" "}
-        launches matched the model's training categories. The rest are shown as
-        low confidence with no verdict, because the training data is dominated
-        by older vehicles.
-      </div>
+      {hero && <NextLaunchHero launch={hero} />}
 
-      <div className="row g-2 mb-4">
-        <div className="col-12 col-md-5">
-          <div className="input-group">
+      <div className="controls mb-4">
+        <div className="d-flex flex-wrap gap-2 mb-3">
+          <div className="input-group controls-search">
             <span className="input-group-text">
               <FiSearch aria-hidden="true" />
             </span>
@@ -138,25 +132,8 @@ export default function LaunchesTab({ upcoming }) {
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
-        </div>
-        <div className="col-6 col-md-4">
           <select
-            className="form-select"
-            aria-label="Filter by provider"
-            value={provider}
-            onChange={(e) => setProvider(e.target.value)}
-          >
-            <option value="all">All providers</option>
-            {providers.map((p) => (
-              <option key={p} value={p}>
-                {p}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="col-6 col-md-3">
-          <select
-            className="form-select"
+            className="form-select controls-sort"
             aria-label="Sort launches"
             value={sort}
             onChange={(e) => setSort(e.target.value)}
@@ -164,6 +141,27 @@ export default function LaunchesTab({ upcoming }) {
             <option value="date">Sort by date</option>
             <option value="risk">Sort by risk</option>
           </select>
+        </div>
+        <div className="chip-row" role="group" aria-label="Filter by provider">
+          <button
+            type="button"
+            className={`filter-chip ${provider === "all" ? "active" : ""}`}
+            aria-pressed={provider === "all"}
+            onClick={() => setProvider("all")}
+          >
+            All
+          </button>
+          {providers.map((p) => (
+            <button
+              type="button"
+              key={p}
+              className={`filter-chip ${provider === p ? "active" : ""}`}
+              aria-pressed={provider === p}
+              onClick={() => setProvider(p)}
+            >
+              {p}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -175,9 +173,9 @@ export default function LaunchesTab({ upcoming }) {
         </p>
       ) : (
         <div className="row g-3">
-          {visible.map((l, i) => (
+          {grid.map((l, i) => (
             <div className="col-12 col-md-6 col-xl-4" key={`${l.mission}-${l.net}-${i}`}>
-              <LaunchCard launch={l} />
+              <LaunchCard launch={l} index={i} />
             </div>
           ))}
         </div>

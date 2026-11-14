@@ -28,7 +28,7 @@ export default function BasicsSection() {
     <dl className="row g-3 mb-0 glossary">
       {GLOSSARY.map(({ term, text }) => (
         <div className="col-12 col-md-6" key={term}>
-          <div className="card h-100 space-card">
+          <div className="card h-100 space-card hover-lift">
             <div className="card-body">
               <dt className="h6">{term}</dt>
               <dd className="small mb-0">{text}</dd>

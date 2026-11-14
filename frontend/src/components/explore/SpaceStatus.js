@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FiUser } from "react-icons/fi";
+import StatusPill from "../StatusPill";
 import { SkeletonCards, WakingNotice } from "../Loading";
 
 // Only plain web links are rendered as links.
@@ -8,8 +9,9 @@ export const safeUrl = (u) => (typeof u === "string" && /^https?:\/\//i.test(u) 
 export function StaleNotice({ payload }) {
   if (!payload || !(payload.stale || payload._note)) return null;
   return (
-    <div className="alert alert-warning py-2" role="status">
-      Showing sample data. Live data could not be loaded right now.
+    <div className="alert alert-warning py-2 d-flex flex-wrap gap-2 align-items-center" role="status">
+      <StatusPill kind="sample" />
+      <span>Showing sample data. Live data could not be loaded right now.</span>
     </div>
   );
 }

@@ -13,7 +13,7 @@ function Body({ items }) {
         const link = safeUrl(e.info_url);
         return (
           <div className="col-12 col-md-6" key={`${e.name}-${i}`}>
-            <div className="card h-100 space-card">
+            <div className="card h-100 space-card hover-lift">
               <div className="card-body">
                 {e.type && <span className="badge text-bg-info mb-2">{e.type}</span>}
                 <h3 className="h6">{e.name}</h3>

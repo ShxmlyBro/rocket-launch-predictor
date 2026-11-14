@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { getFeatures, predict, errorMessage } from "../api";
+import { FiSliders, FiTarget } from "react-icons/fi";
+import RiskGauge from "./RiskGauge";
 import { SkeletonPanel } from "./Loading";
 
 const NUMERIC_FIELDS = [
@@ -87,7 +89,11 @@ export default function WhatIfTab() {
   return (
     <div className="row g-4">
       <div className="col-lg-6">
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="card">
+         <div className="card-body p-3 p-md-4">
+          <h2 className="section-title h5">
+            <FiSliders aria-hidden="true" /> Launch scenario
+          </h2>
           {SELECT_FIELDS.map((s) => (
             <div className="mb-3" key={s.key}>
               <label htmlFor={s.key} className="form-label">
@@ -115,7 +121,7 @@ export default function WhatIfTab() {
                 <label htmlFor={n.key} className="form-label">
                   {n.label}
                   {r.min !== undefined && r.max !== undefined && (
-                    <span className="text-muted">
+                    <span className="text-body-secondary">
                       {" "}
                       (range {String(r.min)} to {String(r.max)})
                     </span>
@@ -138,6 +144,7 @@ export default function WhatIfTab() {
           <button className="btn btn-primary" type="submit" disabled={submitting}>
             {submitting ? "Calculating..." : "Estimate risk"}
           </button>
+         </div>
         </form>
       </div>
 
@@ -148,27 +155,31 @@ export default function WhatIfTab() {
           </div>
         )}
         {result && (
-          <div className="card">
-            <div className="card-body">
-              <h2 className="h5">Model risk score</h2>
-              <p className="display-5 mb-1">
-                {result.risk_probability.toFixed(3)}
-              </p>
-              <p className="text-muted small">
+          <div className="card result-panel">
+            <div className="card-body p-3 p-md-4">
+              <h2 className="section-title h5">
+                <FiTarget aria-hidden="true" /> Result
+              </h2>
+              <RiskGauge
+                score={result.risk_probability}
+                threshold={result.threshold}
+                size="lg"
+              />
+              <p className="text-body-secondary small text-center mt-2">
                 This score ranks relative risk. It is not a calibrated
                 probability.
               </p>
-              <p>
+              <p className="text-center">
                 <span
-                  className={`badge ${
-                    result.above_threshold ? "bg-danger" : "bg-success"
+                  className={`status-pill ${
+                    result.above_threshold ? "flagged" : "clear"
                   }`}
                 >
                   {result.above_threshold
                     ? "Above threshold"
                     : "Below threshold"}
                 </span>{" "}
-                <span className="text-muted small">
+                <span className="text-body-secondary small">
                   (threshold {result.threshold.toFixed(3)})
                 </span>
               </p>

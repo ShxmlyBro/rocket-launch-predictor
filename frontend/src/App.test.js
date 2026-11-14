@@ -85,7 +85,7 @@ const upcoming = {
       rocket: "Soyuz 2.1a",
       provider: "Roscosmos",
       pad: "Baikonur",
-      net: future(10),
+      net: future(70),
       weather,
       risk_score: 0.5,
       threshold: 0.226,
@@ -109,6 +109,21 @@ const upcoming = {
       reasons: [],
       notes: [],
       verdict: "below threshold",
+    },
+    {
+      mission: "Electron Test",
+      rocket: "Electron",
+      provider: "Rocket Lab",
+      pad: "Mahia",
+      net: future(100),
+      weather: null,
+      risk_score: null,
+      threshold: null,
+      above_threshold: null,
+      match_quality: "full",
+      reasons: [],
+      notes: [],
+      verdict: "not scored",
     },
   ],
 };
@@ -140,33 +155,68 @@ beforeEach(() => {
 });
 
 describe("Launches tab", () => {
-  test("shows coverage banner, verdicts, and a muted low-confidence card", async () => {
+  test("has no global banner or coverage banner, keeps a footer note", async () => {
     render(<App />);
     await screen.findByText("Starlink 10-1");
+    expect(screen.queryByText(/model coverage/i)).toBeNull();
+    expect(document.querySelector(".rough-note")).toBeNull();
     expect(
-      screen.getByText(/2 of 3/).textContent
-    ).toMatch(/launches matched the model's training categories/);
+      within(document.querySelector("footer")).getByText(/not a safety tool/i)
+    ).toBeInTheDocument();
+  });
 
-    const full = screen.getByText("Starlink 10-1").closest(".launch-card");
-    expect(within(full).getByText("Flagged")).toBeInTheDocument();
+  test("hero shows the soonest launch with a segmented countdown", async () => {
+    render(<App />);
+    const hero = await screen.findByRole("region", { name: "Next launch" });
+    expect(within(hero).getByText("Starlink 10-1")).toBeInTheDocument();
+    expect(within(hero).getByText("Days")).toBeInTheDocument();
+    expect(within(hero).getByText("Flagged")).toBeInTheDocument();
+    expect(within(hero).getByText("0.310")).toBeInTheDocument();
+  });
+
+  test("full cards show a verdict, score, threshold and caption", async () => {
+    render(<App />);
+    await screen.findByText("Crew Dragon Ax");
+    const full = screen.getByText("Crew Dragon Ax").closest(".launch-card");
+    expect(within(full).getByText("Not flagged")).toBeInTheDocument();
     expect(within(full).getByText("Model risk score")).toBeInTheDocument();
-    expect(within(full).getByText("0.310")).toBeInTheDocument();
+    expect(within(full).getByText("0.100")).toBeInTheDocument();
     expect(within(full).getByText("Threshold 0.226")).toBeInTheDocument();
     expect(
       within(full).getByText("Ranking score, not a probability")
     ).toBeInTheDocument();
+  });
 
+  test("limited cards show a muted score, a pill and no verdict", async () => {
+    render(<App />);
+    await screen.findByText("Soyuz MS-30");
     const limited = screen.getByText("Soyuz MS-30").closest(".launch-card");
     expect(limited).toHaveClass("limited");
     expect(within(limited).getByText("Low confidence")).toBeInTheDocument();
+    expect(within(limited).getByText("0.500")).toBeInTheDocument();
+    expect(within(limited).getByText("Model risk score")).toBeInTheDocument();
+    expect(
+      within(limited).getByText(
+        "Some inputs were not in the training data. Indicative only."
+      )
+    ).toBeInTheDocument();
     expect(within(limited).queryByText("Flagged")).toBeNull();
     expect(within(limited).queryByText("Not flagged")).toBeNull();
-    expect(within(limited).queryByText("Model risk score")).toBeNull();
 
     fireEvent.click(within(limited).getByRole("button", { name: /why\?/i }));
     expect(
       within(limited).getByText("Vehicle not in training categories")
     ).toBeInTheDocument();
+  });
+
+  test("a null score shows the fallback text instead of a gauge", async () => {
+    render(<App />);
+    await screen.findByText("Electron Test");
+    const card = screen.getByText("Electron Test").closest(".launch-card");
+    expect(within(card).getByText("Forecast not available yet")).toBeInTheDocument();
+    expect(within(card).queryByText("Model risk score")).toBeNull();
+    expect(within(card).queryByText("Flagged")).toBeNull();
+    expect(within(card).queryByText("Not flagged")).toBeNull();
   });
 
   test("fetches upcoming once and keeps it across tab switches", async () => {
@@ -182,29 +232,39 @@ describe("Launches tab", () => {
     await waitFor(() => expect(api.getUpcoming).toHaveBeenCalledTimes(2));
   });
 
-  test("filters by provider, searches, and sorts by risk", async () => {
+  test("filters by provider chip, searches, and sorts by risk", async () => {
     render(<App />);
-    await screen.findByText("Starlink 10-1");
+    await screen.findByText("Crew Dragon Ax");
 
-    fireEvent.change(screen.getByLabelText("Filter by provider"), {
-      target: { value: "SpaceX" },
-    });
+    fireEvent.click(screen.getByRole("button", { name: "SpaceX" }));
     expect(screen.queryByText("Soyuz MS-30")).toBeNull();
+    expect(screen.queryByRole("region", { name: "Next launch" })).toBeNull();
 
     fireEvent.change(screen.getByLabelText("Search launches"), {
       target: { value: "vandenberg" },
     });
     expect(screen.queryByText("Starlink 10-1")).toBeNull();
     expect(screen.getByText("Crew Dragon Ax")).toBeInTheDocument();
+  });
 
-    fireEvent.change(screen.getByLabelText("Search launches"), {
-      target: { value: "" },
-    });
+  test("sorting by risk puts scored cards (limited included) before unscored", async () => {
+    render(<App />);
+    await screen.findByText("Crew Dragon Ax");
     fireEvent.change(screen.getByLabelText("Sort launches"), {
       target: { value: "risk" },
     });
+    // The hero holds Starlink 10-1, the soonest launch.
     const titles = screen.getAllByRole("heading", { level: 3 }).map((h) => h.textContent);
-    expect(titles).toEqual(["Starlink 10-1", "Crew Dragon Ax"]);
+    expect(titles).toEqual(["Soyuz MS-30", "Crew Dragon Ax", "Electron Test"]);
+  });
+
+  test("a launch whose time has passed shows Launch window open", async () => {
+    api.getUpcoming.mockResolvedValue({
+      ...upcoming,
+      launches: [{ ...upcoming.launches[0], net: future(-2) }],
+    });
+    render(<App />);
+    expect(await screen.findByText("Launch window open")).toBeInTheDocument();
   });
 
   test("shows a stale-data notice when stale is true", async () => {

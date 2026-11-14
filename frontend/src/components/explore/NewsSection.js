@@ -12,7 +12,7 @@ function Body({ items }) {
         const link = safeUrl(n.url);
         return (
           <div className="col-12 col-md-6" key={`${n.title}-${i}`}>
-            <div className="card h-100 space-card">
+            <div className="card h-100 space-card hover-lift">
               <div className="card-body">
                 <h3 className="h6">{n.title}</h3>
                 <div className="small text-body-secondary mb-2">

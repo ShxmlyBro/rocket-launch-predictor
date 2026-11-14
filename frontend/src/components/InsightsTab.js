@@ -1,6 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { getEdaStats, errorMessage } from "../api";
+import { FiActivity, FiCloud, FiMapPin, FiPieChart, FiStar } from "react-icons/fi";
 import { SkeletonPanel } from "./Loading";
+
+const Section = ({ icon: Icon, title, id, children }) => (
+  <div className="card h-100 hover-lift">
+    <div className="card-body p-3 p-md-4">
+      <h2 className="section-title h5" id={id}>
+        <Icon aria-hidden="true" /> {title}
+      </h2>
+      {children}
+    </div>
+  </div>
+);
 
 function Bar({ pct, max = 100, variant = "primary" }) {
   const width = Math.max(0, Math.min(100, (pct / max) * 100));
@@ -64,7 +76,7 @@ export default function InsightsTab() {
   return (
     <div className="row g-4">
       <section className="col-12">
-        <h2 className="h5">Class balance</h2>
+        <Section icon={FiPieChart} title="Class balance">
         <p className="mb-1">
           {eda.total_records?.toLocaleString()} usable launches:{" "}
           {eda.success?.toLocaleString()} successes,{" "}
@@ -83,10 +95,11 @@ export default function InsightsTab() {
           Heavily imbalanced, which is why the model uses a tuned decision
           threshold instead of the default 50%.
         </p>
+        </Section>
       </section>
 
       <section className="col-lg-6">
-        <h2 className="h5">Top sites by anomaly rate</h2>
+        <Section icon={FiMapPin} title="Top sites by anomaly rate">
         <div className="table-responsive">
           <table className="table table-sm align-middle">
             <thead>
@@ -112,10 +125,11 @@ export default function InsightsTab() {
             </tbody>
           </table>
         </div>
+        </Section>
       </section>
 
       <section className="col-lg-6">
-        <h2 className="h5">Weather means by outcome</h2>
+        <Section icon={FiCloud} title="Weather means by outcome">
         <table className="table table-sm">
           <thead>
             <tr>
@@ -137,12 +151,14 @@ export default function InsightsTab() {
         <p className="text-body-secondary small">
           The averages are close for anomalies and successes.
         </p>
+        </Section>
       </section>
 
       <section className="col-12" aria-labelledby="weather-signal">
-        <div className="alert alert-secondary mb-0">
-          <h2 className="h5" id="weather-signal">
-            How much does weather matter?
+        <div className="card insight-callout">
+         <div className="card-body p-3 p-md-4">
+          <h2 className="section-title h5" id="weather-signal">
+            <FiActivity aria-hidden="true" /> How much does weather matter?
           </h2>
           <p className="mb-0">
             Not much. Weather alone is barely above chance. Wind speed has a
@@ -151,11 +167,12 @@ export default function InsightsTab() {
             agency. The importance bars below can make weather look larger than
             it is, so read them with this in mind.
           </p>
+         </div>
         </div>
       </section>
 
       <section className="col-lg-6">
-        <h2 className="h5">Importance by variable</h2>
+        <Section icon={FiStar} title="Importance by variable">
         <p className="text-body-secondary small">
           Impurity-based importance from the random forest. It tends to
           overstate numeric features such as weather.
@@ -169,10 +186,11 @@ export default function InsightsTab() {
             <Bar pct={v} max={maxImp} />
           </div>
         ))}
+        </Section>
       </section>
 
       <section className="col-lg-6">
-        <h2 className="h5">Top encoded features</h2>
+        <Section icon={FiStar} title="Top encoded features">
         {topEncoded.map(([name, v]) => (
           <div className="mb-2" key={name}>
             <div className="d-flex justify-content-between small">
@@ -182,6 +200,7 @@ export default function InsightsTab() {
             <Bar pct={v} max={maxEnc} variant="secondary" />
           </div>
         ))}
+        </Section>
       </section>
     </div>
   );
