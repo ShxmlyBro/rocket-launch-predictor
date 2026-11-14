@@ -154,6 +154,7 @@ export default function AboutTab() {
             <li>Launch Library 2: the upcoming launch schedule, cached for 30 minutes.</li>
             <li>The Space Devs (Launch Library 2 and Spaceflight News API): astronauts, events, missions and news in the Explore tab.</li>
             <li>wheretheiss.at: the live ISS position in the Explore tab.</li>
+            <li>Land outlines: Natural Earth (public domain), via world-atlas.</li>
           </ul>
         </Card>
       </section>

@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import { errorMessage, getSpaceIss } from "../../api";
-import { mapPosition } from "../../utils/space";
+import { mapPosition, pushTrail } from "../../utils/space";
 import { SkeletonPanel } from "../Loading";
 import { StaleNotice } from "./SpaceStatus";
+
+// three.js and the globe live in their own chunk, fetched only when this section opens.
+const IssGlobe = lazy(() => import("./IssGlobe"));
 
 export const ISS_POLL_MS = 15000;
 
@@ -43,8 +46,38 @@ function IssMap({ lat, lon }) {
   );
 }
 
+class GlobeBoundary extends React.Component {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  componentDidCatch() {
+    // Nothing to log: the notice below tells the user what happened.
+  }
+  render() {
+    if (this.state.failed) {
+      return (
+        <div>
+          <p className="small text-body-secondary mb-2" role="status">
+            3D view unavailable on this device
+          </p>
+          {this.props.fallback}
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+const lastUpdated = (d) => {
+  const t = typeof d.timestamp === "number" ? d.timestamp * 1000 : NaN;
+  return Number.isNaN(t) ? null : new Date(t).toLocaleTimeString();
+};
+
 export default function IssSection() {
   const [state, setState] = useState({ payload: null, error: null });
+  const [trail, setTrail] = useState([]);
+  const [view, setView] = useState("3d");
 
   // Polls every 15 s, but only while this section is mounted and the browser tab
   // is visible. The cleanup clears the interval, so leaving the sub-section, the
@@ -54,7 +87,12 @@ export default function IssSection() {
     const tick = () => {
       if (document.hidden) return;
       getSpaceIss()
-        .then((payload) => !cancelled && setState({ payload, error: null }))
+        .then((payload) => {
+          if (cancelled) return;
+          setState({ payload, error: null });
+          const d = payload?.data || {};
+          setTrail((t) => pushTrail(t, d.latitude, d.longitude, 20));
+        })
         .catch((e) =>
           !cancelled && setState((s) => ({ ...s, error: errorMessage(e) }))
         );
@@ -82,6 +120,8 @@ export default function IssSection() {
   }
   const d = payload.data || {};
   const hasPosition = typeof d.latitude === "number" && typeof d.longitude === "number";
+  const updated = lastUpdated(d);
+  const map = <IssMap lat={d.latitude} lon={d.longitude} />;
   return (
     <>
       <StaleNotice payload={payload} />
@@ -89,14 +129,43 @@ export default function IssSection() {
       {!hasPosition ? (
         <p className="text-body-secondary">ISS position is not available right now.</p>
       ) : (
-        <div className="row g-3 align-items-center">
-          <div className="col-12 col-lg-7"><IssMap lat={d.latitude} lon={d.longitude} /></div>
-          <div className="col-12 col-lg-5">
-            <dl className="row mb-2 iss-stats">
-              <dt className="col-6">Latitude</dt><dd className="col-6">{fmt(d.latitude)}°</dd>
-              <dt className="col-6">Longitude</dt><dd className="col-6">{fmt(d.longitude)}°</dd>
-              <dt className="col-6">Altitude</dt><dd className="col-6">{fmt(d.altitude, 1)} km</dd>
-              <dt className="col-6">Velocity</dt><dd className="col-6">{fmt(d.velocity, 0)} km/h</dd>
+        <div className="iss-layout">
+          <div className="iss-view">
+            <div className="btn-group btn-group-sm mb-2" role="group" aria-label="ISS view">
+              <button
+                type="button"
+                className={`btn ${view === "3d" ? "btn-primary" : "btn-outline-secondary"}`}
+                aria-pressed={view === "3d"}
+                onClick={() => setView("3d")}
+              >
+                3D globe
+              </button>
+              <button
+                type="button"
+                className={`btn ${view === "2d" ? "btn-primary" : "btn-outline-secondary"}`}
+                aria-pressed={view === "2d"}
+                onClick={() => setView("2d")}
+              >
+                2D map
+              </button>
+            </div>
+            {view === "3d" ? (
+              <GlobeBoundary fallback={map}>
+                <Suspense fallback={<div className="skeleton iss-globe-skeleton" aria-label="Loading 3D globe" role="status" />}>
+                  <IssGlobe lat={d.latitude} lon={d.longitude} trail={trail} />
+                </Suspense>
+              </GlobeBoundary>
+            ) : (
+              map
+            )}
+          </div>
+          <div className="iss-readout">
+            <dl className="iss-stats mb-2">
+              <dt>Latitude</dt><dd>{fmt(d.latitude)}°</dd>
+              <dt>Longitude</dt><dd>{fmt(d.longitude)}°</dd>
+              <dt>Altitude</dt><dd>{fmt(d.altitude, 1)} km</dd>
+              <dt>Velocity</dt><dd>{fmt(d.velocity, 0)} km/h</dd>
+              {updated && (<><dt>Last updated</dt><dd>{updated}</dd></>)}
             </dl>
             <p className="small text-body-secondary mb-0">Refreshes every 15 seconds while this view is open.</p>
           </div>

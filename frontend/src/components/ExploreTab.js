@@ -38,7 +38,7 @@ export default function ExploreTab({ space }) {
       {section === "basics" && <BasicsSection />}
 
       <p className="small text-body-secondary mt-4 mb-0">
-        Sources: The Space Devs (Launch Library 2 and Spaceflight News API) and wheretheiss.at.
+        Sources: The Space Devs (Launch Library 2 and Spaceflight News API) and wheretheiss.at. Land outlines: Natural Earth (public domain), via world-atlas.
       </p>
     </div>
   );

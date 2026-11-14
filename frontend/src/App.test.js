@@ -15,6 +15,20 @@ jest.mock("./api", () => ({
   getSpaceIss: jest.fn(),
 }));
 
+// WebGL and ESM-only packages cannot run in Jest, so the globe is a stub.
+// Setting globalThis.__GLOBE_THROWS__ makes it throw, to test the error boundary.
+jest.mock("./components/explore/IssGlobe", () => ({
+  __esModule: true,
+  default: ({ lat, lon, trail }) => {
+    if (globalThis.__GLOBE_THROWS__) throw new Error("no webgl");
+    return (
+      <div data-testid="globe-stub">
+        globe {lat},{lon} trail {trail.length}
+      </div>
+    );
+  },
+}));
+
 const features = {
   categories: {
     Launch_Site: ["CC", "WS"],
@@ -405,6 +419,10 @@ describe("Explore tab", () => {
       Object.defineProperty(document, "hidden", { configurable: true, value: false });
     });
 
+    afterEach(() => {
+      delete globalThis.__GLOBE_THROWS__;
+    });
+
     const advance = (ms) => act(async () => { jest.advanceTimersByTime(ms); });
 
     async function openIss() {
@@ -426,6 +444,44 @@ describe("Explore tab", () => {
     test("stops when the app tab changes", async () => {
       await openIss();
       await advance(15000);
+      fireEvent.click(screen.getByRole("tab", { name: "Launches" }));
+      await advance(60000);
+      expect(api.getSpaceIss).toHaveBeenCalledTimes(2);
+    });
+
+    test("defaults to the lazy 3D globe and the toggle switches to the 2D map", async () => {
+      await openIss();
+      expect(await screen.findByTestId("globe-stub")).toBeInTheDocument();
+      expect(screen.queryByRole("img", { name: /latitude and longitude grid/i })).toBeNull();
+      expect(screen.getByRole("button", { name: "3D globe" })).toHaveAttribute("aria-pressed", "true");
+
+      fireEvent.click(screen.getByRole("button", { name: "2D map" }));
+      expect(screen.queryByTestId("globe-stub")).toBeNull();
+      expect(screen.getByRole("img", { name: /latitude and longitude grid/i })).toBeInTheDocument();
+
+      fireEvent.click(screen.getByRole("button", { name: "3D globe" }));
+      expect(await screen.findByTestId("globe-stub")).toBeInTheDocument();
+      // The readout stays as the text source of truth.
+      expect(screen.getByText("10.00°")).toBeInTheDocument();
+      expect(screen.getByText("20.00°")).toBeInTheDocument();
+    });
+
+    test("falls back to the 2D map with a notice when the globe throws", async () => {
+      globalThis.__GLOBE_THROWS__ = true;
+      jest.spyOn(console, "error").mockImplementation(() => {});
+      await openIss();
+      expect(await screen.findByText("3D view unavailable on this device")).toBeInTheDocument();
+      expect(screen.getByRole("img", { name: /latitude and longitude grid/i })).toBeInTheDocument();
+      expect(screen.getByText("10.00°")).toBeInTheDocument();
+    });
+
+    test("globe view keeps one request per poll and stops after leaving", async () => {
+      await openIss();
+      await screen.findByTestId("globe-stub");
+      expect(api.getSpaceIss).toHaveBeenCalledTimes(1);
+      await advance(15000);
+      expect(api.getSpaceIss).toHaveBeenCalledTimes(2);
+      expect(screen.getByTestId("globe-stub")).toHaveTextContent("trail 1");
       fireEvent.click(screen.getByRole("tab", { name: "Launches" }));
       await advance(60000);
       expect(api.getSpaceIss).toHaveBeenCalledTimes(2);

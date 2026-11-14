@@ -66,3 +66,20 @@ export function mapPosition(lat, lon) {
   if (lat < -90 || lat > 90 || lon < -180 || lon > 180) return null;
   return { x: ((lon + 180) / 360) * 100, y: ((90 - lat) / 180) * 100 };
 }
+
+// Returns the longitude equivalent to `lon` (+/- 360 k) that is closest to `prev`,
+// so a marker crossing +-180 keeps moving the short way round the globe.
+export function unwrapLon(prev, lon) {
+  if (typeof prev !== "number" || !Number.isFinite(prev)) return lon;
+  return lon + 360 * Math.round((prev - lon) / 360);
+}
+
+// Appends a position to the trail (newest last) keeping at most `max` points.
+// Longitudes are unwrapped so the trail is continuous across +-180.
+export function pushTrail(trail, lat, lon, max = 20) {
+  if (typeof lat !== "number" || typeof lon !== "number") return trail;
+  const last = trail[trail.length - 1];
+  const lng = unwrapLon(last?.lng, lon);
+  if (last && last.lat === lat && last.lng === lng) return trail;
+  return [...trail, { lat, lng }].slice(-max);
+}
