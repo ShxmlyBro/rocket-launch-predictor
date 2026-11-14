@@ -471,6 +471,85 @@ describe("Explore tab", () => {
     expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });
 
+  describe("stale data retry", () => {
+    const stale = { stale: true, _note: "sample data", items: [] };
+    const fresh = { stale: false, items: [] };
+
+    beforeEach(() => jest.useFakeTimers());
+    afterEach(() => jest.useRealTimers());
+
+    const advance = (ms) => act(async () => { jest.advanceTimersByTime(ms); });
+
+    async function openNews() {
+      render(<App />);
+      await openTab("Explore");
+      await act(async () => { fireEvent.click(screen.getByRole("button", { name: "News" })); });
+      await advance(0);
+    }
+
+    test("a stale response is refetched exactly once after about 10 s", async () => {
+      api.getSpaceNews.mockResolvedValueOnce(stale).mockResolvedValue(fresh);
+      await openNews();
+      expect(screen.getByText(/showing sample data/i)).toBeInTheDocument();
+      expect(api.getSpaceNews).toHaveBeenCalledTimes(1);
+      await advance(9000);
+      expect(api.getSpaceNews).toHaveBeenCalledTimes(1);
+      await advance(1500);
+      expect(api.getSpaceNews).toHaveBeenCalledTimes(2);
+      expect(screen.queryByText(/showing sample data/i)).toBeNull();
+      await advance(120000);
+      expect(api.getSpaceNews).toHaveBeenCalledTimes(2);
+    });
+
+    test("if the second response is still stale it stops and keeps the notice", async () => {
+      api.getSpaceNews.mockResolvedValue(stale);
+      await openNews();
+      await advance(10500);
+      expect(api.getSpaceNews).toHaveBeenCalledTimes(2);
+      await advance(300000);
+      expect(api.getSpaceNews).toHaveBeenCalledTimes(2);
+      expect(screen.getByText(/showing sample data/i)).toBeInTheDocument();
+    });
+
+    test("leaving the Explore tab cancels the timer, coming back schedules it once", async () => {
+      api.getSpaceNews.mockResolvedValueOnce(stale).mockResolvedValue(fresh);
+      await openNews();
+      await advance(3000);
+      fireEvent.click(screen.getByRole("tab", { name: "Launches" }));
+      await advance(60000);
+      expect(api.getSpaceNews).toHaveBeenCalledTimes(1);
+      fireEvent.click(screen.getByRole("tab", { name: "Explore" }));
+      await advance(10500);
+      expect(api.getSpaceNews).toHaveBeenCalledTimes(2);
+      await advance(60000);
+      expect(api.getSpaceNews).toHaveBeenCalledTimes(2);
+    });
+
+    test("the Refresh button refetches once and is disabled for 10 s", async () => {
+      api.getSpaceNews.mockResolvedValue(stale);
+      await openNews();
+      const button = screen.getByRole("button", { name: "Refresh" });
+      expect(button).toBeEnabled();
+      await act(async () => { fireEvent.click(button); });
+      expect(api.getSpaceNews).toHaveBeenCalledTimes(2);
+      expect(screen.getByRole("button", { name: "Refresh" })).toBeDisabled();
+      // The click used up the one automatic retry, so no timer fires later.
+      await advance(9000);
+      expect(screen.getByRole("button", { name: "Refresh" })).toBeDisabled();
+      await advance(1500);
+      expect(screen.getByRole("button", { name: "Refresh" })).toBeEnabled();
+      expect(api.getSpaceNews).toHaveBeenCalledTimes(2);
+    });
+
+    test("fresh data shows no notice and no Refresh button", async () => {
+      api.getSpaceNews.mockResolvedValue(fresh);
+      await openNews();
+      expect(screen.queryByRole("button", { name: "Refresh" })).toBeNull();
+      await advance(60000);
+      expect(api.getSpaceNews).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe("ISS polling", () => {
     beforeEach(() => jest.useFakeTimers());
     afterEach(() => {

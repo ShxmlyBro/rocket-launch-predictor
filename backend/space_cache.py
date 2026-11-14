@@ -117,6 +117,26 @@ class SpaceCache:
             self._spawn(lambda: self._refresh(key, fetch))
         return payload
 
+    def prime(self, key: str, ttl: float, fetch: Callable[[], dict], snapshot: str) -> bool:
+        """Refresh one key now, in the calling thread, through the normal refresh path.
+
+        Used by the startup warm-up. Does nothing if the key is already fresh or a
+        refresh is running. On failure the snapshot stays (stale=True) and the usual
+        failure backoff applies. Returns True if a fetch was attempted.
+        """
+        with self._lock:
+            entry = self._entries.get(key)
+            if entry is None:
+                entry = {"payload": load_snapshot(snapshot), "ts": None,
+                         "next_try": 0.0, "refreshing": False}
+                self._entries[key] = entry
+            fresh = entry["ts"] is not None and _now() - entry["ts"] < ttl
+            if fresh or entry["refreshing"]:
+                return False
+            entry["refreshing"] = True
+        self._refresh(key, fetch)
+        return True
+
     def _refresh(self, key: str, fetch: Callable[[], dict]) -> None:
         entry = self._entries[key]
         try:

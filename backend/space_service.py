@@ -6,7 +6,9 @@ calls happen only in background refreshes. All LL2 calls go through the shared
 limiter in space_cache. The optional LL2_API_KEY comes from the environment and is
 never logged or returned.
 """
+import logging
 import os
+import threading
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
@@ -175,3 +177,44 @@ def get_news() -> dict:
 
 def get_iss() -> dict:
     return cache.get("iss", TTL_ISS, fetch_iss, "space_iss.json")
+
+
+# Startup warm-up -------------------------------------------------------------
+
+WARMUP_GAP_SECONDS = 30.0
+_log = logging.getLogger(__name__)
+
+
+def warm_up(stop: threading.Event, gap: float = WARMUP_GAP_SECONDS) -> None:
+    """Fill the cache so the first visitors do not see sample data.
+
+    News and the ISS position go first (no LL2 limiter involved), then astronauts,
+    events and missions one at a time, `gap` seconds apart. Every call uses the same
+    fetch functions, limiter and cache refresh as a normal request. A refused limiter
+    or failed call keeps the snapshot (stale=True), is logged by the cache, and is
+    not retried.
+    """
+    steps = (
+        ("news", TTL_NEWS, fetch_news, "space_news.json"),
+        ("iss", TTL_ISS, fetch_iss, "space_iss.json"),
+        ("astronauts", TTL_ASTRONAUTS, fetch_astronauts, "space_astronauts.json"),
+        ("events", TTL_EVENTS, fetch_events, "space_events.json"),
+        ("missions", TTL_MISSIONS, fetch_missions, "space_missions.json"),
+    )
+    for i, (key, ttl, fetch, snapshot) in enumerate(steps):
+        if stop.is_set():
+            return
+        cache.prime(key, ttl, fetch, snapshot)
+        # No pause around the two non-LL2 calls, 30 s between the LL2 calls.
+        if 2 <= i < len(steps) - 1 and stop.wait(gap):
+            return
+
+
+def start_warmup(stop: threading.Event):
+    """Start the warm-up in a daemon thread. Returns the thread, or None if disabled."""
+    if os.getenv("SPACE_WARMUP") == "0":
+        _log.info("Space cache warm-up skipped (SPACE_WARMUP=0)")
+        return None
+    t = threading.Thread(target=warm_up, args=(stop,), name="space-warmup", daemon=True)
+    t.start()
+    return t

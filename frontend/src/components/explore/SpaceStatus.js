@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiUser } from "react-icons/fi";
 import StatusPill from "../StatusPill";
 import { SkeletonCards, WakingNotice } from "../Loading";
@@ -6,12 +6,34 @@ import { SkeletonCards, WakingNotice } from "../Loading";
 // Only plain web links are rendered as links.
 export const safeUrl = (u) => (typeof u === "string" && /^https?:\/\//i.test(u) ? u : null);
 
-export function StaleNotice({ payload }) {
+export const REFRESH_COOLDOWN_MS = 10000;
+
+// Optional onRefresh adds a Refresh button, disabled for 10 s after a click.
+export function StaleNotice({ payload, onRefresh }) {
+  const [cooling, setCooling] = useState(false);
+  const timer = useRef(null);
+  useEffect(() => () => clearTimeout(timer.current), []);
   if (!payload || !(payload.stale || payload._note)) return null;
+  const click = () => {
+    setCooling(true);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setCooling(false), REFRESH_COOLDOWN_MS);
+    onRefresh();
+  };
   return (
     <div className="alert alert-warning py-2 d-flex flex-wrap gap-2 align-items-center" role="status">
       <StatusPill kind="sample" />
       <span>Showing sample data. Live data could not be loaded right now.</span>
+      {onRefresh && (
+        <button
+          type="button"
+          className="btn btn-sm btn-outline-secondary ms-auto"
+          onClick={click}
+          disabled={cooling}
+        >
+          Refresh
+        </button>
+      )}
     </div>
   );
 }
@@ -39,7 +61,7 @@ export function SpaceResource({ res, retry, children }) {
   }
   return (
     <>
-      <StaleNotice payload={res.data} />
+      <StaleNotice payload={res.data} onRefresh={retry} />
       {children(res.data)}
     </>
   );

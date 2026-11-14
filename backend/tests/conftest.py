@@ -1,7 +1,12 @@
+import os
+
 import pytest
 from fastapi.testclient import TestClient
 
-from main import app
+# The suite never starts the startup warm-up thread (it would make real network calls).
+os.environ["SPACE_WARMUP"] = "0"
+
+from main import app  # noqa: E402
 
 
 @pytest.fixture(scope="module")

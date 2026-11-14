@@ -53,7 +53,7 @@ function App() {
   // Fetched once here so the data survives tab switches.
   const upcoming = useUpcoming();
   // Explore data is fetched lazily, once per resource, and kept here too.
-  const space = useSpace();
+  const space = useSpace(tab === "explore");
 
   useEffect(() => {
     document.documentElement.setAttribute("data-bs-theme", theme);
