@@ -20,7 +20,7 @@ export default function NextLaunchHero({ launch }) {
     >
       <div className="card-body p-3 p-md-4">
         <div className="row g-4 align-items-center">
-          <div className="col-lg-7">
+          <div className="col-lg-5">
             <div className="hero-kicker">
               <FiNavigation aria-hidden="true" /> Next launch
             </div>
@@ -38,8 +38,8 @@ export default function NextLaunchHero({ launch }) {
               <WeatherChips weather={launch.weather} />
             </div>
           </div>
-          <div className="col-lg-5">
-            <RiskArea launch={launch} size="lg" />
+          <div className="col-lg-7">
+            <RiskArea launch={launch} size="lg" split />
           </div>
         </div>
       </div>

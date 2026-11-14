@@ -243,7 +243,11 @@ describe("Launches tab", () => {
     expect(within(full).getByText("Not flagged")).toBeInTheDocument();
     expect(within(full).getByText("Model risk score")).toBeInTheDocument();
     expect(within(full).getByText("0.100")).toBeInTheDocument();
-    expect(within(full).getByText("Threshold 0.226")).toBeInTheDocument();
+    // The threshold is only used for the colour zones, not printed on the gauge.
+    expect(within(full).queryByText(/threshold 0\.226/i)).toBeNull();
+    expect(
+      within(full).getByRole("img", { name: /model risk score 0\.100/i })
+    ).toBeInTheDocument();
     expect(
       within(full).getByText("Ranking score, not a probability")
     ).toBeInTheDocument();

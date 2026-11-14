@@ -92,27 +92,41 @@ export function LaunchPill({ launch }) {
   return <StatusPill kind={launch.above_threshold ? "flagged" : "clear"} />;
 }
 
-export function RiskArea({ launch, size }) {
+// split puts the risk reading and the gauge side by side when there is room (hero card).
+export function RiskArea({ launch, size, split = false }) {
   if (!hasScore(launch)) {
     return (
       <div className="gauge-missing">Forecast not available yet</div>
     );
   }
   const limited = isLimited(launch);
+  const reading = hasReading(launch) && (
+    <RiskReading
+      similarRate={launch.similar_rate}
+      percentile={launch.risk_percentile}
+    />
+  );
+  const gauge = (
+    <RiskGauge
+      score={launch.risk_score}
+      threshold={launch.threshold}
+      size={size}
+      compact={hasReading(launch)}
+    />
+  );
   return (
     <div>
-      {hasReading(launch) && (
-        <RiskReading
-          similarRate={launch.similar_rate}
-          percentile={launch.risk_percentile}
-        />
+      {split ? (
+        <div className="risk-split">
+          {reading}
+          {gauge}
+        </div>
+      ) : (
+        <>
+          {reading}
+          {gauge}
+        </>
       )}
-      <RiskGauge
-        score={launch.risk_score}
-        threshold={launch.threshold}
-        size={size}
-        compact={hasReading(launch)}
-      />
       {limited && (
         <p className="small low-note text-center mb-0 mt-2">
           Some inputs were not in the training data, so treat this as indicative only.

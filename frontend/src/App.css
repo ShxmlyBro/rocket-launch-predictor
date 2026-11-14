@@ -610,16 +610,6 @@ h1, h2, h3, h4, h5, h6 {
 .zone-neutral {
   stroke: var(--bs-secondary-bg);
 }
-.threshold-tick {
-  stroke: var(--text-strong);
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-.threshold-label {
-  fill: var(--text-soft);
-  font-size: 8px;
-  font-weight: 600;
-}
 .needle-line {
   stroke: var(--text-strong);
   stroke-width: 3;
@@ -637,7 +627,7 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 14%;
+  bottom: 34%;
   font-size: 1.7rem;
   font-weight: 800;
   line-height: 1;
@@ -648,10 +638,6 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 2.1rem;
 }
 .gauge-caption {
-  font-size: 0.78rem;
-  color: var(--bs-secondary-color);
-}
-.gauge-threshold {
   font-size: 0.78rem;
   color: var(--bs-secondary-color);
 }
@@ -1026,11 +1012,22 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-text-fill-color: transparent;
 }
 .risk-gauge.compact .gauge-value {
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  bottom: 12%;
+  bottom: 34%;
 }
 .risk-gauge.compact .gauge-title {
   text-transform: none;
   letter-spacing: 0.02em;
+}
+
+/* Hero: reading and gauge side by side when there is room, so the card is not lopsided */
+.risk-split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+  align-items: center;
+}
+.risk-split .risk-reading {
+  margin-bottom: 0;
 }
