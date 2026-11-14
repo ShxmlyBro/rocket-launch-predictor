@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   FiBarChart2,
   FiBookOpen,
+  FiCompass,
   FiMoon,
   FiSend,
   FiSliders,
@@ -11,7 +12,9 @@ import LaunchesTab from "./components/LaunchesTab";
 import WhatIfTab from "./components/WhatIfTab";
 import InsightsTab from "./components/InsightsTab";
 import AboutTab from "./components/AboutTab";
+import ExploreTab from "./components/ExploreTab";
 import { NowProvider } from "./utils/NowContext";
+import useSpace from "./utils/useSpace";
 import useUpcoming from "./utils/useUpcoming";
 import "./App.css";
 
@@ -20,6 +23,7 @@ const TABS = [
   { id: "whatif", label: "What-if", Icon: FiSliders },
   { id: "insights", label: "Insights", Icon: FiBarChart2 },
   { id: "about", label: "About the model", Icon: FiBookOpen },
+  { id: "explore", label: "Explore", Icon: FiCompass },
 ];
 
 const THEME_KEY = "theme";
@@ -46,6 +50,8 @@ function App() {
   const [theme, setTheme] = useState(initialTheme);
   // Fetched once here so the data survives tab switches.
   const upcoming = useUpcoming();
+  // Explore data is fetched lazily, once per resource, and kept here too.
+  const space = useSpace();
 
   useEffect(() => {
     document.documentElement.setAttribute("data-bs-theme", theme);
@@ -104,6 +110,7 @@ function App() {
           {tab === "whatif" && <WhatIfTab />}
           {tab === "insights" && <InsightsTab />}
           {tab === "about" && <AboutTab />}
+          {tab === "explore" && <ExploreTab space={space} />}
         </div>
       </main>
 

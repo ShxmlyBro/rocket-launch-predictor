@@ -113,6 +113,8 @@ export default function AboutTab() {
           <li>GCAT launch catalogue: historical launches, sites, vehicles, agencies and outcomes.</li>
           <li>Open-Meteo: archived daily weather for past launches and forecasts for upcoming ones.</li>
           <li>Launch Library 2: the upcoming launch schedule, cached for 30 minutes.</li>
+          <li>The Space Devs (Launch Library 2 and Spaceflight News API): astronauts, events, missions and news in the Explore tab.</li>
+          <li>wheretheiss.at: the live ISS position in the Explore tab.</li>
         </ul>
       </section>
 

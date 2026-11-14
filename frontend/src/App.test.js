@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor, within } from "@testing-library/react";
+import { act, render, screen, fireEvent, waitFor, within } from "@testing-library/react";
 import App from "./App";
 import * as api from "./api";
 
@@ -8,6 +8,11 @@ jest.mock("./api", () => ({
   getUpcoming: jest.fn(),
   predict: jest.fn(),
   errorMessage: jest.fn(),
+  getSpaceAstronauts: jest.fn(),
+  getSpaceEvents: jest.fn(),
+  getSpaceMissions: jest.fn(),
+  getSpaceNews: jest.fn(),
+  getSpaceIss: jest.fn(),
 }));
 
 const features = {
@@ -118,6 +123,14 @@ beforeEach(() => {
   api.getFeatures.mockResolvedValue(features);
   api.getEdaStats.mockResolvedValue(eda);
   api.getUpcoming.mockResolvedValue(upcoming);
+  api.getSpaceAstronauts.mockResolvedValue({ stale: false, items: [] });
+  api.getSpaceEvents.mockResolvedValue({ stale: false, items: [] });
+  api.getSpaceMissions.mockResolvedValue({ stale: false, items: [] });
+  api.getSpaceNews.mockResolvedValue({ stale: false, items: [] });
+  api.getSpaceIss.mockResolvedValue({
+    stale: false,
+    data: { latitude: 10, longitude: 20, altitude: 420, velocity: 27600 },
+  });
   api.predict.mockResolvedValue({
     risk_probability: 0.234,
     above_threshold: true,
@@ -290,5 +303,87 @@ describe("Theme", () => {
     expect(document.documentElement.getAttribute("data-bs-theme")).toBe("light");
     fireEvent.click(screen.getByRole("button", { name: /switch to dark mode/i }));
     expect(document.documentElement.getAttribute("data-bs-theme")).toBe("dark");
+  });
+});
+
+describe("Explore tab", () => {
+  test("is the fifth tab and shows source credits", async () => {
+    render(<App />);
+    expect(screen.getAllByRole("tab")[4]).toHaveTextContent("Explore");
+    await openTab("Explore");
+    expect(screen.getByText(/The Space Devs \(Launch Library 2 and Spaceflight News API\)/))
+      .toBeInTheDocument();
+  });
+
+  test("shows a stale notice for snapshot data", async () => {
+    api.getSpaceNews.mockResolvedValue({ stale: true, _note: "sample data", items: [] });
+    render(<App />);
+    await openTab("Explore");
+    fireEvent.click(screen.getByRole("button", { name: "News" }));
+    expect(await screen.findByText(/showing sample data/i)).toBeInTheDocument();
+  });
+
+  test("news links open in a new tab with noopener noreferrer", async () => {
+    api.getSpaceNews.mockResolvedValue({
+      stale: false,
+      items: [{ title: "Big launch", source: "Site", published_at: "2026-11-01T00:00:00Z",
+                summary: "Short snippet", url: "https://example.com/a" }],
+    });
+    render(<App />);
+    await openTab("Explore");
+    fireEvent.click(screen.getByRole("button", { name: "News" }));
+    const link = await screen.findByRole("link", { name: /read on site/i });
+    expect(link).toHaveAttribute("href", "https://example.com/a");
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  });
+
+  describe("ISS polling", () => {
+    beforeEach(() => jest.useFakeTimers());
+    afterEach(() => {
+      jest.useRealTimers();
+      Object.defineProperty(document, "hidden", { configurable: true, value: false });
+    });
+
+    const advance = (ms) => act(async () => { jest.advanceTimersByTime(ms); });
+
+    async function openIss() {
+      render(<App />);
+      await openTab("Explore");
+      await act(async () => { fireEvent.click(screen.getByRole("button", { name: "ISS now" })); });
+    }
+
+    test("polls every 15 s and stops when the sub-section changes", async () => {
+      await openIss();
+      expect(api.getSpaceIss).toHaveBeenCalledTimes(1);
+      await advance(15000);
+      expect(api.getSpaceIss).toHaveBeenCalledTimes(2);
+      fireEvent.click(screen.getByRole("button", { name: "News" }));
+      await advance(60000);
+      expect(api.getSpaceIss).toHaveBeenCalledTimes(2);
+    });
+
+    test("stops when the app tab changes", async () => {
+      await openIss();
+      await advance(15000);
+      fireEvent.click(screen.getByRole("tab", { name: "Launches" }));
+      await advance(60000);
+      expect(api.getSpaceIss).toHaveBeenCalledTimes(2);
+    });
+
+    test("stops on unmount and does not poll while the page is hidden", async () => {
+      Object.defineProperty(document, "hidden", { configurable: true, value: true });
+      const { unmount } = render(<App />);
+      fireEvent.click(screen.getByRole("tab", { name: "Explore" }));
+      await act(async () => { fireEvent.click(screen.getByRole("button", { name: "ISS now" })); });
+      await advance(45000);
+      expect(api.getSpaceIss).not.toHaveBeenCalled();
+      Object.defineProperty(document, "hidden", { configurable: true, value: false });
+      await advance(15000);
+      expect(api.getSpaceIss).toHaveBeenCalledTimes(1);
+      unmount();
+      await advance(60000);
+      expect(api.getSpaceIss).toHaveBeenCalledTimes(1);
+    });
   });
 });
