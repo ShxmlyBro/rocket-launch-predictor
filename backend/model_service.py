@@ -1,9 +1,12 @@
 """Loads the trained model bundle once and runs predictions."""
 import json
 from pathlib import Path
+from typing import Optional
 
 import joblib
 import pandas as pd
+
+from score_reference import EMPTY, ScoreReference, load_reference
 
 MODEL_DIR = Path(__file__).resolve().parent / "model"
 MODEL_PATH = MODEL_DIR / "rocket_model.joblib"
@@ -23,13 +26,14 @@ DISCLAIMER = (
 
 
 class ModelService:
-    def __init__(self, bundle: dict, metadata: dict):
+    def __init__(self, bundle: dict, metadata: dict, reference: Optional[ScoreReference] = None):
         self.model = bundle["model"]
         self.threshold = float(bundle["threshold"])
         self.num_cols = list(bundle["num_cols"])
         self.cat_cols = list(bundle["cat_cols"])
         self.known_categories = bundle["known_categories"]
         self.metadata = metadata
+        self.reference = reference
 
     def predict(self, values: dict) -> dict:
         """values: request fields keyed by lowercase column name."""
@@ -50,6 +54,7 @@ class ModelService:
             "above_threshold": above,
             "threshold": self.threshold,
             "note": note + DISCLAIMER,
+            **(self.reference.lookup(probability) if self.reference else EMPTY),
         }
 
 
@@ -57,4 +62,4 @@ def load_service() -> ModelService:
     bundle = joblib.load(MODEL_PATH)
     with open(METADATA_PATH, encoding="utf-8") as f:
         metadata = json.load(f)
-    return ModelService(bundle, metadata)
+    return ModelService(bundle, metadata, load_reference())

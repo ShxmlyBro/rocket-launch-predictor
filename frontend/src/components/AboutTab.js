@@ -6,9 +6,11 @@ import {
   FiCloud,
   FiDatabase,
   FiInfo,
+  FiMessageCircle,
   FiShield,
   FiTarget,
 } from "react-icons/fi";
+import { EXPLAINER } from "./RiskReading";
 import { SkeletonPanel } from "./Loading";
 
 import { falseAlarmsPerCaught, pct } from "../utils/format";
@@ -78,6 +80,23 @@ export default function AboutTab() {
             This project gives a rough estimate only. Do not use it for safety
             decisions. The model risk score ranks relative risk, it is not a
             probability, and most flagged launches turn out to be false alarms.
+          </p>
+        </Card>
+      </section>
+
+      <section className="col-12">
+        <Card icon={FiMessageCircle} title="How to read the risk numbers">
+          <ul>
+            {EXPLAINER.map((t) => (
+              <li key={t}>{t}</li>
+            ))}
+          </ul>
+          <p className="mb-0">
+            The percentages come from the held-out test set of 3,413 launches
+            that the model never saw during training. The "risk reading" sentence
+            shows how often past launches with a similar score had a failure or
+            partial failure. "Riskier than 87% of past launches" means 87% of
+            those test launches scored lower.
           </p>
         </Card>
       </section>

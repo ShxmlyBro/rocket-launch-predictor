@@ -99,6 +99,16 @@ export default function LaunchCard({ launch, index = 0 }) {
             <dd>{launch.pad || "Unknown"}</dd>
             <dt>Launch time (NET)</dt>
             <dd>{formatDate(launch.net)}</dd>
+            {scored && (
+              <>
+                <dt>Technical reading</dt>
+                <dd>
+                  Model risk score {launch.risk_score.toFixed(3)}
+                  {typeof launch.similar_n === "number" &&
+                    `. Compared with ${launch.similar_n.toLocaleString()} past launches in the same score band.`}
+                </dd>
+              </>
+            )}
             {launch.weather && (
               <>
                 <dt>Forecast weather</dt>

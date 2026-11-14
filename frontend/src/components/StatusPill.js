@@ -1,10 +1,10 @@
 import React from "react";
-import { FiAlertTriangle, FiCheckCircle, FiDatabase, FiHelpCircle } from "react-icons/fi";
+import { FiAlertTriangle, FiCheckCircle, FiDatabase, FiInfo } from "react-icons/fi";
 
 const KINDS = {
   flagged: { Icon: FiAlertTriangle, label: "Flagged" },
   clear: { Icon: FiCheckCircle, label: "Not flagged" },
-  low: { Icon: FiHelpCircle, label: "Low confidence" },
+  low: { Icon: FiInfo, label: "Low confidence" },
   sample: { Icon: FiDatabase, label: "Sample data" },
 };
 

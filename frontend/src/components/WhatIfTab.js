@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { getFeatures, predict, errorMessage } from "../api";
 import { FiSliders, FiTarget } from "react-icons/fi";
 import RiskGauge from "./RiskGauge";
+import RiskReading, { hasReading } from "./RiskReading";
 import { SkeletonPanel } from "./Loading";
 
 const NUMERIC_FIELDS = [
@@ -160,6 +161,12 @@ export default function WhatIfTab() {
               <h2 className="section-title h5">
                 <FiTarget aria-hidden="true" /> Result
               </h2>
+              {hasReading(result) && (
+                <RiskReading
+                  similarRate={result.similar_rate}
+                  percentile={result.risk_percentile}
+                />
+              )}
               <RiskGauge
                 score={result.risk_probability}
                 threshold={result.threshold}

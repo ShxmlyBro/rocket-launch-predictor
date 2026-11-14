@@ -479,9 +479,9 @@ h1, h2, h3, h4, h5, h6 {
   border-color: rgba(13, 148, 136, 0.4);
 }
 .status-pill.low {
-  background: rgba(100, 116, 139, 0.16);
-  color: #475569;
-  border: 1px dashed rgba(100, 116, 139, 0.6);
+  background: rgba(217, 119, 6, 0.16);
+  color: #92400e;
+  border: 1px solid rgba(217, 119, 6, 0.55);
 }
 .status-pill.sample {
   background: rgba(217, 119, 6, 0.14);
@@ -495,7 +495,9 @@ h1, h2, h3, h4, h5, h6 {
   color: #5eead4;
 }
 [data-bs-theme="dark"] .status-pill.low {
-  color: #cbd5e1;
+  color: #fcd34d;
+  background: rgba(251, 191, 36, 0.14);
+  border-color: rgba(251, 191, 36, 0.5);
 }
 [data-bs-theme="dark"] .status-pill.sample {
   color: #fcd34d;
@@ -652,15 +654,6 @@ h1, h2, h3, h4, h5, h6 {
 .gauge-threshold {
   font-size: 0.78rem;
   color: var(--bs-secondary-color);
-}
-.gauge-limited {
-  border: 1px dashed var(--bs-border-color);
-  border-radius: var(--radius-sm);
-  padding: 0.6rem 0.5rem;
-}
-.risk-gauge.muted {
-  opacity: 0.6;
-  filter: saturate(0.5);
 }
 .gauge-missing {
   text-align: center;
@@ -966,4 +959,58 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   gap: 0.5rem;
   margin-top: 0.5rem;
+}
+
+/* Risk reading */
+.risk-reading {
+  margin-bottom: 1rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: var(--radius-sm);
+  background: var(--pill-bg);
+  border: 1px solid var(--glass-border);
+  border-left: 4px solid var(--accent-1);
+}
+.rr-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bs-secondary-color);
+}
+.rr-headline {
+  margin: 0.2rem 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-strong);
+}
+.rr-sub {
+  margin: 0 0 0.4rem;
+  font-size: 0.85rem;
+  color: var(--bs-secondary-color);
+}
+.rr-help {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.1rem 0;
+  border: 0;
+  background: transparent;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-1);
+  text-align: left;
+}
+[data-bs-theme="light"] .rr-help {
+  color: #4338ca;
+}
+.rr-help:hover {
+  text-decoration: underline;
+}
+.low-note {
+  color: #92400e;
+  font-weight: 600;
+}
+[data-bs-theme="dark"] .low-note {
+  color: #fcd34d;
 }

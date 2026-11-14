@@ -219,6 +219,9 @@ def _score(service: ModelService, launch: dict, weather: Optional[dict]) -> dict
         "risk_score": None,
         "threshold": service.threshold,
         "above_threshold": None,
+        "risk_percentile": None,
+        "similar_rate": None,
+        "similar_n": None,
         "verdict": LOW_CONFIDENCE,
         "match_quality": "limited" if reasons else "full",
         "reasons": reasons,
@@ -235,6 +238,8 @@ def _score(service: ModelService, launch: dict, weather: Optional[dict]) -> dict
         **weather,
     })
     out["risk_score"] = pred["risk_probability"]  # always kept, for display only
+    for key in ("risk_percentile", "similar_rate", "similar_n"):
+        out[key] = pred.get(key)
     if out["match_quality"] == "full":
         # Only a full match earns a threshold call. Limited matches stay null.
         out["above_threshold"] = pred["above_threshold"]

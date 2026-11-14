@@ -93,6 +93,9 @@ const upcoming = {
       risk_score: 0.31,
       threshold: 0.226,
       above_threshold: true,
+      risk_percentile: 87,
+      similar_rate: 0.123,
+      similar_n: 683,
       match_quality: "full",
       reasons: [],
       notes: ["Pad matched approximately."],
@@ -108,6 +111,9 @@ const upcoming = {
       risk_score: 0.5,
       threshold: 0.226,
       above_threshold: true,
+      risk_percentile: 96,
+      similar_rate: 0.2,
+      similar_n: 683,
       match_quality: "limited",
       reasons: ["Vehicle not in training categories"],
       notes: [],
@@ -123,6 +129,9 @@ const upcoming = {
       risk_score: 0.1,
       threshold: 0.226,
       above_threshold: false,
+      risk_percentile: null,
+      similar_rate: null,
+      similar_n: null,
       match_quality: "full",
       reasons: [],
       notes: [],
@@ -169,6 +178,9 @@ beforeEach(() => {
     above_threshold: true,
     threshold: 0.2,
     note: "Backend note.",
+    risk_percentile: 71,
+    similar_rate: 0.052,
+    similar_n: 683,
   });
 });
 
@@ -192,6 +204,38 @@ describe("Launches tab", () => {
     expect(within(hero).getByText("0.310")).toBeInTheDocument();
   });
 
+  test("scored cards show the plain-language reading and a keyboard-friendly explainer", async () => {
+    render(<App />);
+    const hero = await screen.findByRole("region", { name: "Next launch" });
+    expect(
+      within(hero).getByText(
+        /Past launches with a similar score had a failure or partial failure about 12% of the time/
+      )
+    ).toBeInTheDocument();
+    expect(within(hero).getByText("Riskier than 87% of past launches")).toBeInTheDocument();
+    expect(within(hero).getByText("Risk reading")).toBeInTheDocument();
+
+    const help = within(hero).getByRole("button", { name: /what does this mean/i });
+    expect(help).toHaveAttribute("aria-expanded", "false");
+    fireEvent.click(help);
+    expect(help).toHaveAttribute("aria-expanded", "true");
+    expect(within(hero).getByText(/not the chance that this launch will fail/i)).toBeInTheDocument();
+    expect(within(hero).getByText(/dominated by older rockets/i)).toBeInTheDocument();
+    expect(within(hero).getByText(/false alarms/i)).toBeInTheDocument();
+  });
+
+  test("without the new fields a card falls back to score and gauge only", async () => {
+    render(<App />);
+    await screen.findByText("Crew Dragon Ax");
+    const card = screen.getByText("Crew Dragon Ax").closest(".launch-card");
+    expect(within(card).queryByText("Risk reading")).toBeNull();
+    expect(within(card).queryByText(/similar score/i)).toBeNull();
+    expect(within(card).getByText("0.100")).toBeInTheDocument();
+
+    fireEvent.click(within(card).getByRole("button", { name: /details/i }));
+    expect(within(card).getByText("Model risk score 0.100")).toBeInTheDocument();
+  });
+
   test("full cards show a verdict, score, threshold and caption", async () => {
     render(<App />);
     await screen.findByText("Crew Dragon Ax");
@@ -210,12 +254,18 @@ describe("Launches tab", () => {
     await screen.findByText("Soyuz MS-30");
     const limited = screen.getByText("Soyuz MS-30").closest(".launch-card");
     expect(limited).toHaveClass("limited");
+    // Dashed outline only: no muted or greyed styling anywhere on the card.
+    expect(limited.className).not.toMatch(/muted/);
+    expect(limited.querySelector(".muted")).toBeNull();
     expect(within(limited).getByText("Low confidence")).toBeInTheDocument();
+    expect(
+      within(limited).getByText(/about 20% of the time/)
+    ).toBeInTheDocument();
     expect(within(limited).getByText("0.500")).toBeInTheDocument();
     expect(within(limited).getByText("Model risk score")).toBeInTheDocument();
     expect(
       within(limited).getByText(
-        "Some inputs were not in the training data. Indicative only."
+        "Some inputs were not in the training data, so treat this as indicative only."
       )
     ).toBeInTheDocument();
     expect(within(limited).queryByText("Flagged")).toBeNull();
@@ -319,6 +369,9 @@ describe("What-if tab", () => {
     fireEvent.click(screen.getByRole("button", { name: /estimate risk/i }));
 
     expect(await screen.findByText("Model risk score")).toBeInTheDocument();
+    expect(screen.getByText("Risk reading")).toBeInTheDocument();
+    expect(screen.getByText(/about 5% of the time/)).toBeInTheDocument();
+    expect(screen.getByText("Riskier than 71% of past launches")).toBeInTheDocument();
     expect(screen.getByText("0.234")).toBeInTheDocument();
     expect(screen.getByText(/threshold 0\.200/)).toBeInTheDocument();
     expect(screen.getByText(/not a calibrated probability/i)).toBeInTheDocument();
@@ -364,6 +417,8 @@ describe("About tab", () => {
     expect(screen.getByText("7.7")).toBeInTheDocument();
     expect(screen.getByText("22.6%")).toBeInTheDocument();
     expect(screen.getByText(/weather adds little signal/i)).toBeInTheDocument();
+    expect(screen.getByText("How to read the risk numbers")).toBeInTheDocument();
+    expect(screen.getByText(/held-out test set of 3,413 launches/)).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/accuracy/i);
   });
 });

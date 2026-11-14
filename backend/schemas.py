@@ -23,6 +23,9 @@ class PredictResponse(BaseModel):
     above_threshold: bool
     threshold: float
     note: str
+    risk_percentile: Optional[int] = None
+    similar_rate: Optional[float] = None
+    similar_n: Optional[int] = None
 
 
 class UpcomingLaunch(BaseModel):
@@ -35,6 +38,9 @@ class UpcomingLaunch(BaseModel):
     risk_score: Optional[float] = None
     threshold: float
     above_threshold: Optional[bool] = None
+    risk_percentile: Optional[int] = None
+    similar_rate: Optional[float] = None
+    similar_n: Optional[int] = None
     verdict: str
     match_quality: Literal["full", "limited"]
     reasons: List[str] = []

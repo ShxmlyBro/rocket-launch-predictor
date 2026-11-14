@@ -1,6 +1,7 @@
 import React from "react";
 import { FiCloudRain, FiThermometer, FiWind } from "react-icons/fi";
 import RiskGauge from "./RiskGauge";
+import RiskReading, { hasReading } from "./RiskReading";
 import StatusPill from "./StatusPill";
 import { useNow } from "../utils/NowContext";
 import {
@@ -99,16 +100,17 @@ export function RiskArea({ launch, size }) {
   }
   const limited = isLimited(launch);
   return (
-    <div className={limited ? "gauge-limited" : ""}>
-      <RiskGauge
-        score={launch.risk_score}
-        threshold={launch.threshold}
-        muted={limited}
-        size={size}
-      />
+    <div>
+      {hasReading(launch) && (
+        <RiskReading
+          similarRate={launch.similar_rate}
+          percentile={launch.risk_percentile}
+        />
+      )}
+      <RiskGauge score={launch.risk_score} threshold={launch.threshold} size={size} />
       {limited && (
-        <p className="small text-body-secondary text-center mb-0 mt-2">
-          Some inputs were not in the training data. Indicative only.
+        <p className="small low-note text-center mb-0 mt-2">
+          Some inputs were not in the training data, so treat this as indicative only.
         </p>
       )}
     </div>
