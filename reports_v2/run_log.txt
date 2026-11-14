@@ -1,0 +1,105 @@
+Python           : 3.10.7 | /Users/shamlygamage/Documents/TopUp/Final Project/rocket-launch-predictor/venv/bin/python
+pandas           : 2.3.3
+scikit-learn     : 1.7.2
+imbalanced-learn : 0.14.2
+scipy            : 1.14.1
+Data file        : merged_gcat_meteo_v2.csv
+Raw rows: 17063
+Modelling rows: 17063
+target
+Success            15855
+Failure/Anomaly     1208
+Name: count, dtype: int64
+{0: 92.92, 1: 7.08}
+Train: (13650, 6) | anomalies: 966
+Test : (3413, 6) | anomalies: 242
+============================================================
+Logistic Regression (baseline)
+Encoded columns: 1670
+              precision    recall  f1-score   support
+
+     Success       0.96      0.74      0.83      3171
+     Anomaly       0.15      0.58      0.23       242
+
+    accuracy                           0.73      3413
+   macro avg       0.55      0.66      0.53      3413
+weighted avg       0.90      0.73      0.79      3413
+
+============================================================
+Random Forest (baseline)
+Encoded columns: 1670
+              precision    recall  f1-score   support
+
+     Success       0.93      0.98      0.95      3171
+     Anomaly       0.19      0.07      0.10       242
+
+    accuracy                           0.91      3413
+   macro avg       0.56      0.52      0.53      3413
+weighted avg       0.88      0.91      0.89      3413
+
+Encoded columns after grouping rare categories: 227
+============================================================
+DATASET SUMMARY
+Total rows in file        : 17063
+Rows used after dropna    : 17063
+Class balance (%)         : {'Success': 92.92, 'Anomaly': 7.08}
+Train size                : 13650
+Test size                 : 3413
+Anomalies in test         : 242
+Encoded columns           : 227
+============================================================
+Fitting 5 folds for each of 8 candidates, totalling 40 fits
+Best params : {'clf__max_depth': None, 'clf__max_features': 'sqrt', 'clf__min_samples_leaf': 3}
+Best CV PR-AUC: 0.1726
+Chosen threshold (max F2 on out-of-fold training predictions): 0.226
+              precision    recall  f1-score   support
+
+     Success       0.97      0.55      0.71      3171
+     Anomaly       0.12      0.76      0.20       242
+
+    accuracy                           0.57      3413
+   macro avg       0.54      0.66      0.45      3413
+weighted avg       0.91      0.57      0.67      3413
+
+Confusion matrix [rows = actual, cols = predicted]:
+[[1759 1412]
+ [  58  184]]
+No-skill PR-AUC (anomaly rate in test set): 0.071
+                                               Model  ...  ROC-AUC
+0                     Logistic Regression (baseline)  ...    0.720
+1                           Random Forest (baseline)  ...    0.713
+2                      Logistic Regression (grouped)  ...    0.716
+3                            Random Forest (grouped)  ...    0.703
+4                              Random Forest + SMOTE  ...    0.703
+5                           RF + SMOTE (default 0.5)  ...    0.724
+6               RF + SMOTE + tuned threshold (FINAL)  ...    0.724
+7    Logistic Regression (grouped) + tuned threshold  ...    0.716
+8  Random Forest (balanced, no SMOTE) + tuned thr...  ...    0.703
+
+[9 rows x 9 columns]
+No-skill PR-AUC (anomaly rate in train set): 0.071
+                         Feature set  CV PR-AUC  PR-AUC std  CV ROC-AUC
+0       Site + vehicle + agency only      0.179       0.012       0.734
+1                       Weather only      0.088       0.004       0.546
+2  Weather + site + vehicle + agency      0.177       0.016       0.732
+3                Above + launch year      0.196       0.010       0.758
+         variable  PR-AUC drop when shuffled     std
+4         LV_Type                     0.0430  0.0088
+5          Agency                     0.0354  0.0075
+2  max_wind_speed                     0.0092  0.0042
+3     Launch_Site                     0.0075  0.0064
+1   precipitation                    -0.0008  0.0054
+0       temp_mean                    -0.0039  0.0048
+LV_Type           34.65
+Agency            24.31
+Launch_Site       15.44
+temp_mean          8.64
+max_wind_speed     8.53
+precipitation      8.43
+dtype: float64
+
+Weather features combined: 25.6% of total importance
+Saved: ['metadata.json', 'rocket_model.joblib']
+Model file size (MB): 7.8
+Anomaly risk: 0.8273 | flagged: True
+Elapsed time: 1.1 min (68 s)

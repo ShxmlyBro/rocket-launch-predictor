@@ -1,0 +1,8 @@
+check,name,metric,value,ci_low,ci_high,std,n
+cv_smote_vs_balanced,RF + SMOTE,CV PR-AUC (mean),0.1726,,,0.0127,5
+cv_smote_vs_balanced,"RF class_weight=balanced, no SMOTE",CV PR-AUC (mean),0.177,,,0.0156,5
+cv_smote_vs_balanced,No-skill baseline,CV PR-AUC (mean),0.0708,,,,
+bootstrap_test,saved model @ threshold 0.226,Recall,0.7603,0.7056,0.8133,0.0269,1000
+bootstrap_test,saved model @ threshold 0.226,Precision,0.1153,0.0992,0.1306,0.0078,1000
+bootstrap_test,saved model @ threshold 0.226,F2,0.3588,0.3212,0.3918,0.0178,1000
+bootstrap_test,saved model @ threshold 0.226,PR-AUC,0.1613,0.1319,0.1971,0.0165,1000

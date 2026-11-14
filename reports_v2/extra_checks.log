@@ -1,0 +1,30 @@
+Python           : 3.10.7 | /Users/shamlygamage/Documents/TopUp/Final Project/rocket-launch-predictor/venv/bin/python
+pandas           : 2.3.3
+scikit-learn     : 1.7.2
+imbalanced-learn : 0.14.2
+scipy            : 1.14.1
+Data file        : merged_gcat_meteo_v2.csv
+Rows: 17063 total, 17063 used | train 13650 (966 anomalies) | test 3413 (242 anomalies)
+best_params from metadata.json: {'clf__max_depth': None, 'clf__max_features': 'sqrt', 'clf__min_samples_leaf': 3}
+
+(1) 5-fold stratified CV PR-AUC on the training set
+  RF + SMOTE                             mean 0.1726 | std 0.0127 | folds [0.1794, 0.1491, 0.1817, 0.1691, 0.1834]
+  RF class_weight=balanced, no SMOTE     mean 0.1770 | std 0.0156 | folds [0.1905, 0.1472, 0.1833, 0.1873, 0.1767]
+  No-skill PR-AUC (train anomaly rate): 0.0708
+
+(2) Test-set bootstrap, 1000 resamples, threshold 0.226 (skipped 0)
+  Recall     0.760  95% CI [0.706, 0.813]
+  Precision  0.115  95% CI [0.099, 0.131]
+  F2         0.359  95% CI [0.321, 0.392]
+  PR-AUC     0.161  95% CI [0.132, 0.197]
+
+Saved: ../reports_v2/extra_checks.csv
+               check                               name           metric  value  ci_low ci_high     std    n
+cv_smote_vs_balanced                         RF + SMOTE CV PR-AUC (mean) 0.1726                  0.0127    5
+cv_smote_vs_balanced RF class_weight=balanced, no SMOTE CV PR-AUC (mean) 0.1770                  0.0156    5
+cv_smote_vs_balanced                  No-skill baseline CV PR-AUC (mean) 0.0708                             
+      bootstrap_test      saved model @ threshold 0.226           Recall 0.7603  0.7056  0.8133  0.0269 1000
+      bootstrap_test      saved model @ threshold 0.226        Precision 0.1153  0.0992  0.1306  0.0078 1000
+      bootstrap_test      saved model @ threshold 0.226               F2 0.3588  0.3212  0.3918  0.0178 1000
+      bootstrap_test      saved model @ threshold 0.226           PR-AUC 0.1613  0.1319  0.1971  0.0165 1000
+Elapsed time: 0.2 min (11 s)

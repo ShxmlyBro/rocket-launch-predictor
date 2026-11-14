@@ -1,0 +1,8 @@
+Model,Threshold,Accuracy,Precision,Recall,F1,F2,PR-AUC,ROC-AUC
+Logistic Regression (baseline),0.5,0.728,0.145,0.583,0.233,0.364,0.186,0.72
+Random Forest (baseline),0.5,0.914,0.19,0.066,0.098,0.076,0.16,0.713
+Logistic Regression (grouped),0.5,0.636,0.125,0.69,0.212,0.363,0.168,0.716
+Random Forest (grouped),0.5,0.912,0.172,0.062,0.091,0.071,0.139,0.703
+Random Forest + SMOTE,0.5,0.866,0.176,0.244,0.205,0.226,0.134,0.703
+RF + SMOTE (default 0.5),0.5,0.813,0.164,0.397,0.232,0.309,0.161,0.724
+RF + SMOTE + tuned threshold (FINAL),0.226,0.569,0.115,0.76,0.2,0.359,0.161,0.724
