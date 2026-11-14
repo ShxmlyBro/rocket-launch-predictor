@@ -1,122 +1,122 @@
 {
   "metrics": {
     "Model": "RF + SMOTE + tuned threshold (FINAL)",
-    "Threshold": 0.167,
-    "Accuracy": 0.701,
-    "Precision": 0.119,
-    "Recall": 0.63,
+    "Threshold": 0.226,
+    "Accuracy": 0.569,
+    "Precision": 0.115,
+    "Recall": 0.76,
     "F1": 0.2,
-    "F2": 0.339,
-    "PR-AUC": 0.122,
-    "ROC-AUC": 0.705
+    "F2": 0.359,
+    "PR-AUC": 0.161,
+    "ROC-AUC": 0.724
   },
   "best_params": {
     "clf__max_depth": null,
-    "clf__max_features": 0.3,
+    "clf__max_features": "sqrt",
     "clf__min_samples_leaf": 3
   },
   "feature_importance_by_variable": {
-    "LV_Type": 32.45,
-    "Agency": 18.93,
-    "Launch_Site": 13.47,
-    "max_wind_speed": 12.85,
-    "temp_mean": 11.7,
-    "precipitation": 10.6
+    "LV_Type": 34.65,
+    "Agency": 24.31,
+    "Launch_Site": 15.44,
+    "temp_mean": 8.64,
+    "max_wind_speed": 8.53,
+    "precipitation": 8.43
   },
   "top_encoded_features": {
-    "cat__LV_Type_infrequent_sklearn": 14.23,
-    "num__max_wind_speed": 12.85,
-    "num__temp_mean": 11.7,
-    "num__precipitation": 10.6,
-    "cat__Agency_infrequent_sklearn": 2.9,
-    "cat__Agency_GSFC": 2.6,
-    "cat__LV_Type_Nike Apache": 2.17,
-    "cat__Launch_Site_CC": 1.63,
-    "cat__Agency_RVSN": 1.52,
-    "cat__Agency_AN": 1.37,
-    "cat__Launch_Site_WI": 1.25,
+    "cat__LV_Type_infrequent_sklearn": 11.08,
+    "num__temp_mean": 8.64,
+    "num__max_wind_speed": 8.53,
+    "num__precipitation": 8.43,
+    "cat__Agency_infrequent_sklearn": 3.5,
+    "cat__Launch_Site_CC": 2.05,
+    "cat__Agency_AN": 1.69,
+    "cat__LV_Type_Arcas": 1.63,
+    "cat__LV_Type_V-2": 1.61,
+    "cat__Agency_AFBMD": 1.54,
+    "cat__Agency_GSFC": 1.54,
+    "cat__Agency_RVSN": 1.25,
     "cat__Launch_Site_infrequent_sklearn": 1.24,
-    "cat__Agency_AFBSD": 1.22,
-    "cat__Launch_Site_WS": 1.13,
-    "cat__Launch_Site_NIIP-5": 1.12
+    "cat__LV_Type_Nike Cajun": 1.16,
+    "cat__Launch_Site_NIIP-5": 1.1
   },
   "eda_stats": {
-    "total_records": 13593,
-    "success": 12783,
-    "anomaly": 810,
-    "anomaly_pct": 5.96,
+    "total_records": 17063,
+    "success": 15855,
+    "anomaly": 1208,
+    "anomaly_pct": 7.08,
     "weather_means_by_outcome": {
       "Anomaly": {
-        "temp_mean": 12.84,
-        "precipitation": 1.36,
-        "max_wind_speed": 20.13
+        "temp_mean": 13.36,
+        "precipitation": 1.31,
+        "max_wind_speed": 19.99
       },
       "Success": {
-        "temp_mean": 12.23,
-        "precipitation": 1.5,
-        "max_wind_speed": 20.64
+        "temp_mean": 12.41,
+        "precipitation": 1.54,
+        "max_wind_speed": 20.29
       }
     },
     "top_sites": [
       {
         "Launch_Site": "WS",
-        "launches": 1498,
-        "anomalies": 69,
-        "anomaly_rate": 4.61
+        "launches": 1652,
+        "anomalies": 109,
+        "anomaly_rate": 6.6
       },
       {
         "Launch_Site": "WI",
-        "launches": 1474,
-        "anomalies": 53,
-        "anomaly_rate": 3.6
+        "launches": 1553,
+        "anomalies": 60,
+        "anomaly_rate": 3.86
       },
       {
         "Launch_Site": "CC",
-        "launches": 800,
-        "anomalies": 98,
-        "anomaly_rate": 12.25
-      },
-      {
-        "Launch_Site": "FC",
-        "launches": 770,
-        "anomalies": 60,
-        "anomaly_rate": 7.79
-      },
-      {
-        "Launch_Site": "NIIP-5",
-        "launches": 650,
-        "anomalies": 82,
-        "anomaly_rate": 12.62
-      },
-      {
-        "Launch_Site": "V",
-        "launches": 578,
-        "anomalies": 41,
-        "anomaly_rate": 7.09
-      },
-      {
-        "Launch_Site": "WOO",
-        "launches": 474,
-        "anomalies": 36,
-        "anomaly_rate": 7.59
+        "launches": 1133,
+        "anomalies": 163,
+        "anomaly_rate": 14.39
       },
       {
         "Launch_Site": "NIIP-53",
-        "launches": 428,
-        "anomalies": 59,
-        "anomaly_rate": 13.79
+        "launches": 997,
+        "anomalies": 80,
+        "anomaly_rate": 8.02
+      },
+      {
+        "Launch_Site": "NIIP-5",
+        "launches": 885,
+        "anomalies": 105,
+        "anomaly_rate": 11.86
+      },
+      {
+        "Launch_Site": "FC",
+        "launches": 799,
+        "anomalies": 69,
+        "anomaly_rate": 8.64
+      },
+      {
+        "Launch_Site": "V",
+        "launches": 710,
+        "anomalies": 56,
+        "anomaly_rate": 7.89
+      },
+      {
+        "Launch_Site": "WOO",
+        "launches": 481,
+        "anomalies": 38,
+        "anomaly_rate": 7.9
+      },
+      {
+        "Launch_Site": "GTsP-4",
+        "launches": 391,
+        "anomalies": 30,
+        "anomaly_rate": 7.67
       },
       {
         "Launch_Site": "EGL",
-        "launches": 381,
+        "launches": 386,
         "anomalies": 20,
-        "anomaly_rate": 5.25
-      },
-      {
-        "Launch_Site": "ETR",
-        "launches": 369,
-        "anomalies": 26,
-        "anomaly_rate": 7.05
+        "anomaly_rate": 5.18
       }
     ]
   }
