@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { getEdaStats, errorMessage } from "../api";
+import { SkeletonPanel } from "./Loading";
 
 function Bar({ pct, max = 100, variant = "primary" }) {
   const width = Math.max(0, Math.min(100, (pct / max) * 100));
@@ -19,7 +20,7 @@ const WEATHER_LABELS = {
   max_wind_speed: "Max wind speed (km/h)",
 };
 
-export default function EdaTab() {
+export default function InsightsTab() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -45,15 +46,7 @@ export default function EdaTab() {
   }
 
   if (!data) {
-    return (
-      <div className="text-center my-5" role="status">
-        <div className="spinner-border" aria-hidden="true" />
-        <p className="mt-3 mb-0">
-          Loading statistics. The server may be waking up, which can take up to
-          a minute.
-        </p>
-      </div>
-    );
+    return <SkeletonPanel label="Loading statistics" />;
   }
 
   const eda = data.eda_stats || {};
@@ -87,8 +80,8 @@ export default function EdaTab() {
           />
         </div>
         <p className="text-muted small mt-1">
-          Heavily imbalanced, which is why the model uses SMOTE and a tuned
-          threshold.
+          Heavily imbalanced, which is why the model uses a tuned decision
+          threshold instead of the default 50%.
         </p>
       </section>
 
@@ -141,13 +134,32 @@ export default function EdaTab() {
             ))}
           </tbody>
         </table>
-        <p className="text-muted small">
-          The averages are close, so weather adds little signal on its own.
+        <p className="text-body-secondary small">
+          The averages are close for anomalies and successes.
         </p>
+      </section>
+
+      <section className="col-12" aria-labelledby="weather-signal">
+        <div className="alert alert-secondary mb-0">
+          <h2 className="h5" id="weather-signal">
+            How much does weather matter?
+          </h2>
+          <p className="mb-0">
+            Not much. Weather alone is barely above chance. Wind speed has a
+            small effect, while temperature and precipitation add nothing
+            measurable. Most of the signal comes from the vehicle type and the
+            agency. The importance bars below can make weather look larger than
+            it is, so read them with this in mind.
+          </p>
+        </div>
       </section>
 
       <section className="col-lg-6">
         <h2 className="h5">Importance by variable</h2>
+        <p className="text-body-secondary small">
+          Impurity-based importance from the random forest. It tends to
+          overstate numeric features such as weather.
+        </p>
         {importance.map(([name, v]) => (
           <div className="mb-2" key={name}>
             <div className="d-flex justify-content-between small">

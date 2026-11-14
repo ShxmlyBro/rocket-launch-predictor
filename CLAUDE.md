@@ -3,8 +3,9 @@
 Deadline: final report due 19 Nov 2026. Priority is a working, deployed, honest demo. Keep changes small and tested.
 
 ## What this is
-Estimates launch anomaly risk from launch site, vehicle type, agency and three daily weather values (temp_mean, precipitation, max_wind_speed). Data: GCAT launches merged with Open-Meteo weather, 13,593 usable rows, about 94:6 class balance.
-Model: imblearn pipeline (preprocessing + SMOTE + RandomForest) with a tuned decision threshold. Test results: recall 0.630, F2 0.339, precision 0.119, PR-AUC 0.122. Weather adds little signal. The UI and docs must say the output is a rough estimate, not a safety tool.
+Estimates launch anomaly risk from launch site, vehicle type, agency and three daily weather values (temp_mean, precipitation, max_wind_speed). Data: GCAT launches merged with Open-Meteo weather, 17,063 usable rows, 7.08% anomalies (about 93:7 class balance).
+Model: imblearn pipeline (preprocessing + SMOTE + RandomForest) with a tuned decision threshold of 0.226. Test results: recall 0.760, precision 0.115, F2 0.359, PR-AUC 0.161. Weather adds little signal. The UI and docs must say the output is a rough estimate, not a safety tool.
+Also serves GET /api/v1/upcoming: upcoming launches (Launch Library 2, cached, snapshot fallback) scored with forecast weather, each marked match_quality "full" or "limited".
 
 ## Layout
 - backend/  FastAPI. Run from backend/: `uvicorn main:app --reload` (docs at /docs). Old HND code lives in routes/, pred/, tests/ and is being replaced.

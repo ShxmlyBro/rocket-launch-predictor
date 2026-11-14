@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { getFeatures, predict, errorMessage } from "../api";
+import { SkeletonPanel } from "./Loading";
 
 const NUMERIC_FIELDS = [
   { key: "temp_mean", label: "Mean temperature (°C)" },
@@ -20,7 +21,7 @@ function categoriesFor(categories, catKeys) {
   return [];
 }
 
-export default function PredictionTab() {
+export default function WhatIfTab() {
   const [features, setFeatures] = useState(null);
   const [loadError, setLoadError] = useState(null);
   const [values, setValues] = useState({});
@@ -78,15 +79,7 @@ export default function PredictionTab() {
   }
 
   if (!features) {
-    return (
-      <div className="text-center my-5" role="status">
-        <div className="spinner-border" aria-hidden="true" />
-        <p className="mt-3 mb-0">
-          Loading form options. The server may be waking up, which can take up
-          to a minute.
-        </p>
-      </div>
-    );
+    return <SkeletonPanel label="Loading form options" />;
   }
 
   const ranges = features.numeric_ranges || {};
@@ -159,7 +152,7 @@ export default function PredictionTab() {
             <div className="card-body">
               <h2 className="h5">Model risk score</h2>
               <p className="display-5 mb-1">
-                {(result.risk_probability * 100).toFixed(1)}%
+                {result.risk_probability.toFixed(3)}
               </p>
               <p className="text-muted small">
                 This score ranks relative risk. It is not a calibrated
@@ -176,7 +169,7 @@ export default function PredictionTab() {
                     : "Below threshold"}
                 </span>{" "}
                 <span className="text-muted small">
-                  (threshold {(result.threshold * 100).toFixed(1)}%)
+                  (threshold {result.threshold.toFixed(3)})
                 </span>
               </p>
               <p className="mb-0">{result.note}</p>

@@ -40,6 +40,9 @@ def test_eda_stats(client):
     assert data["eda_stats"]["total_records"] == expected
     assert "LV_Type" in data["feature_importance_by_variable"]
     assert data["top_encoded_features"]
+    meta_metrics = json.loads(METADATA.read_text(encoding="utf-8"))["metrics"]
+    assert data["metrics"] == meta_metrics
+    assert data["metrics"]["Precision"] > 0
 
 
 def test_predict_valid(client):

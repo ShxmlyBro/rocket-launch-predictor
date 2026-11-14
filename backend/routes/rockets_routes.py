@@ -47,6 +47,7 @@ def eda_stats(request: Request):
     service = get_service(request)
     meta = service.metadata
     return {
+        "metrics": meta.get("metrics", {}),
         "eda_stats": meta.get("eda_stats", {}),
         "feature_importance_by_variable": meta.get("feature_importance_by_variable", {}),
         "top_encoded_features": meta.get("top_encoded_features", {}),

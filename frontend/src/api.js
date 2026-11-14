@@ -10,7 +10,8 @@ const client = axios.create({
 
 export const getFeatures = () => client.get("/features").then((r) => r.data);
 export const getEdaStats = () => client.get("/eda-stats").then((r) => r.data);
-export const predict = (payload) =>
+export const getUpcoming = () => client.get("/upcoming").then((r) => r.data);
+export const predict =(payload) =>
   client.post("/predict", payload).then((r) => r.data);
 
 // Turn an axios error into a readable message.

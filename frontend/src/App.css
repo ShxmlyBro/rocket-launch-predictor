@@ -1,32 +1,61 @@
-/* App.css */
+/* App.css: layout and components. Colours come from Bootstrap's theme variables
+   so light and dark mode (data-bs-theme) both work. */
 
-/* General styles */
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f4f9;
+  font-family: "Arial", sans-serif;
   margin: 0;
 }
 
-/* Hero Section */
-.hero {
+/* Navbar and notice */
+.app-navbar {
   background: linear-gradient(to right, #000428, #004e92);
-  padding: 60px 0;
-  color: white;
 }
-
-.hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-.hero p {
-  font-size: 1.2rem;
-}
-
-/* Navbar */
-.navbar-brand {
-  font-size: 1.5rem;
+.app-navbar .navbar-brand {
+  color: #fff;
+  font-size: 1.25rem;
   font-weight: bold;
+}
+.rough-note {
+  background: var(--bs-warning-bg-subtle);
+  color: var(--bs-warning-text-emphasis);
+  border-bottom: 1px solid var(--bs-warning-border-subtle);
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+/* Tabs */
+.app-tabs {
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+.app-tabs .nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+@media (max-width: 575.98px) {
+  .app-tabs .nav-item {
+    flex: 1 1 45%;
+  }
+  .app-tabs .nav-link {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* Smooth tab transition */
+.tab-fade {
+  animation: tab-fade-in 0.25s ease-out;
+}
+@keyframes tab-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Cards */
@@ -34,10 +63,113 @@ body {
   border: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+.launch-card.limited {
+  opacity: 0.7;
+  border: 1px dashed var(--bs-border-color);
+  box-shadow: none;
+}
+.launch-card .details dt {
+  margin-top: 0.5rem;
+}
+.launch-card .details dd {
+  margin-bottom: 0;
+}
+
+/* Countdown and weather chip */
+.countdown {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.chip {
+  display: inline-block;
+  background: var(--bs-tertiary-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 999px;
+  padding: 0.15rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+/* Risk gauge */
+.risk-gauge {
+  position: relative;
+  height: 0.75rem;
+  background: var(--bs-secondary-bg);
+  border-radius: 999px;
+  overflow: visible;
+}
+.risk-gauge-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+.risk-gauge-fill.below {
+  background: var(--bs-success);
+}
+.risk-gauge-fill.above {
+  background: var(--bs-danger);
+}
+.risk-gauge-marker {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 3px;
+  margin-left: -1px;
+  background: var(--bs-body-color);
+  border-radius: 2px;
+}
+
+/* Expander chevron and spinner */
+.chevron {
+  transition: transform 0.2s;
+}
+.chevron.open {
+  transform: rotate(180deg);
+}
+.spin {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Skeleton loaders */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bs-secondary-bg) 25%,
+    var(--bs-tertiary-bg) 50%,
+    var(--bs-secondary-bg) 75%
+  );
+  background-size: 200% 100%;
+  border-radius: 0.375rem;
+  animation: shimmer 1.4s infinite linear;
+}
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-fade,
+  .skeleton,
+  .spin,
+  .risk-gauge-fill,
+  .chevron {
+    animation: none;
+    transition: none;
+  }
+}
 
 /* Footer */
 footer {
   background-color: #343a40;
+  color: #fff;
 }
 footer p {
   margin: 0;
