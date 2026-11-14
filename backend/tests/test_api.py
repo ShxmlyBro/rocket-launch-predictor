@@ -1,4 +1,9 @@
+import json
+from pathlib import Path
+
 import pytest
+
+METADATA = Path(__file__).resolve().parents[1] / "model" / "metadata.json"
 
 VALID = {
     "launch_site": "CC",
@@ -31,7 +36,8 @@ def test_eda_stats(client):
     r = client.get("/api/v1/eda-stats")
     assert r.status_code == 200
     data = r.json()
-    assert data["eda_stats"]["total_records"] == 13593
+    expected = json.loads(METADATA.read_text(encoding="utf-8"))["eda_stats"]["total_records"]
+    assert data["eda_stats"]["total_records"] == expected
     assert "LV_Type" in data["feature_importance_by_variable"]
     assert data["top_encoded_features"]
 
@@ -42,7 +48,7 @@ def test_predict_valid(client):
     data = r.json()
     assert 0.0 <= data["risk_probability"] <= 1.0
     assert isinstance(data["above_threshold"], bool)
-    assert data["threshold"] == pytest.approx(0.167, abs=0.01)
+    assert data["threshold"] == pytest.approx(client.app.state.service.threshold)
     assert "not a safety tool" in data["note"]
 
 

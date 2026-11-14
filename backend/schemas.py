@@ -38,6 +38,7 @@ class UpcomingLaunch(BaseModel):
     verdict: str
     match_quality: Literal["full", "limited"]
     reasons: List[str] = []
+    notes: List[str] = []
 
 
 class UpcomingResponse(BaseModel):

@@ -91,13 +91,56 @@ def test_known_frequent_categories_are_full(client, mock_apis, monkeypatch):
     assert launch["verdict"] in ("above threshold", "below threshold")
 
 
-def test_infrequent_category_is_limited(client, mock_apis):
+def test_falcon9_spacex_is_full_match(client, mock_apis):
+    """v2 encoder keeps Falcon 9 / SpaceX, so the real encoder gives 'full'."""
     client.app.state.service._infrequent_cache = None  # use the real fitted encoder
     _, state = mock_apis
-    state["launches"] = [_launch("Rare", 2, rocket="Falcon 9 Block 5", provider="SpaceX")]
+    state["launches"] = [_launch("Full", 2, rocket="Falcon 9 Block 5", provider="SpaceX")]
     body = client.get("/api/v1/upcoming").json()["launches"][0]
-    assert body["match_quality"] == "limited"
-    assert any("rare in training data" in r for r in body["reasons"])
+    assert body["match_quality"] == "full"
+    assert body["reasons"] == []
+
+
+def test_infrequent_vehicle_and_agency_are_limited(client, monkeypatch):
+    svc = client.app.state.service
+    svc._infrequent_cache = None  # use the real fitted encoder
+    enc = svc.model.named_steps["prep"].named_transformers_["cat"]
+    infrequent = {col: inf for col, inf in zip(svc.cat_cols, enc.infrequent_categories_)}
+    rare_vehicle = next(c for c in infrequent["LV_Type"] if c in svc.known_categories["LV_Type"])
+    rare_agency = next(c for c in infrequent["Agency"] if c in svc.known_categories["Agency"])
+
+    monkeypatch.setattr(u, "VEHICLE_RULES", [("rare rocket", rare_vehicle, False)])
+    monkeypatch.setattr(u, "AGENCY_RULES", [("rare agency", rare_agency)])
+    launch = _launch("Rare", 2, rocket="Rare Rocket", provider="Rare Agency")
+    out = u._score(svc, launch, WEATHER)
+    assert out["match_quality"] == "limited"
+    text = " | ".join(out["reasons"])
+    assert f"vehicle: '{rare_vehicle}' is rare in training data" in text
+    assert f"agency: '{rare_agency}' is rare in training data" in text
+    assert out["above_threshold"] is None
+
+
+@pytest.mark.parametrize("pad,loc,code", [
+    ("Launch Complex 39A", "Kennedy Space Center, FL, USA", "CC"),
+    ("Space Launch Complex 4E", "Vandenberg SFB, CA, USA", "VS"),
+])
+def test_approximated_site_adds_note(client, monkeypatch, pad, loc, code):
+    svc = client.app.state.service
+    svc._infrequent_cache = {c: set() for c in svc.cat_cols}  # isolate the note logic
+    monkeypatch.setattr(u, "VEHICLE_RULES", [("falcon 9", "Falcon 9", False)])
+    monkeypatch.setattr(u, "AGENCY_RULES", [("spacex", "SPX")])
+    out = u._score(svc, _launch("Note", 2, pad=pad, loc=loc, rocket="Falcon 9",
+                                provider="SpaceX"), WEATHER)
+    assert out["notes"] == ["site approximated from pad name"]
+    assert out["match_quality"] == "full"
+    assert out["reasons"] == []
+
+
+def test_exact_site_has_no_note(client, monkeypatch):
+    svc = client.app.state.service
+    svc._infrequent_cache = {c: set() for c in svc.cat_cols}
+    out = u._score(svc, _launch("Exact", 2), WEATHER)  # Cape Canaveral SFS
+    assert out["notes"] == []
 
 
 def test_kept_encoder_categories_give_full_match(client, monkeypatch):

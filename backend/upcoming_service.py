@@ -46,6 +46,8 @@ SITE_RULES = [
     ("taiyuan", "TYSC"),
     ("wenchang", "WC"),
 ]
+# Site rules whose GCAT code is only a nearby site, so the response carries a note.
+APPROXIMATED_SITE_KEYS = {"kennedy", "vandenberg"}
 # (substring, GCAT code, approximate?)
 VEHICLE_RULES = [
     ("falcon 9", "Falcon 9", False),
@@ -184,6 +186,11 @@ def _score(service: ModelService, launch: dict, weather: Optional[dict]) -> dict
     veh_hit = _lookup(VEHICLE_RULES, rocket_name)
     ag_hit = _lookup(AGENCY_RULES, provider)
 
+    site_text = f"{pad.get('name', '')} {location}".lower()
+    matched_key = next((r[0] for r in SITE_RULES if r[0] in site_text), None)
+    notes = (["site approximated from pad name"]
+             if matched_key in APPROXIMATED_SITE_KEYS else [])
+
     reasons = []
     values = {}
     for col, raw, hit, label in (
@@ -210,6 +217,7 @@ def _score(service: ModelService, launch: dict, weather: Optional[dict]) -> dict
         "verdict": LOW_CONFIDENCE,
         "match_quality": "limited" if reasons else "full",
         "reasons": reasons,
+        "notes": notes,
     }
     if weather is None:
         out["match_quality"] = "limited"
