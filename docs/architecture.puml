@@ -1,0 +1,98 @@
+@startuml architecture
+title Rocket Launch Risk Estimator: components
+skinparam componentStyle rectangle
+left to right direction
+
+package "Data sources" {
+  [GCAT\n(gcat.csv, sites.tsv)] as GCAT
+}
+
+package "External APIs" {
+  [Open-Meteo\narchive + forecast] as OM
+  [Launch Library 2\nschedule, astronauts,\nevents, missions] as LL2
+  [Spaceflight News API] as SNAPI
+  [wheretheiss.at] as ISS
+}
+
+package "Offline scripts (scripts/)" {
+  [ingest_data.py] as INGEST
+  [refetch_missing.py\nrepairs 3,470 rows] as REFETCH
+  [modelling_v2.py\nSMOTE + Random Forest\n+ tuned threshold] as TRAIN
+  [make_score_reference.py\n(backend/scripts)] as MKREF
+}
+
+database "data/" as DATA {
+  [merged_gcat_meteo.csv] as CSV1
+  [merged_gcat_meteo_v2.csv] as CSV2
+}
+
+package "backend/model/ (not edited by hand)" {
+  [rocket_model.joblib\nmodel, threshold 0.226,\ncolumns, known categories] as BUNDLE
+  [metadata.json\nmetrics, importance, EDA] as META
+  [score_reference.json\nheld-out test scores:\nquantiles + 5 bands] as REF
+}
+
+package "FastAPI backend (backend/)" {
+  [main.py\nstartup: load model,\nwarm cache thread] as MAIN
+  [model_service.py] as MODEL
+  [score_reference.py] as REFSVC
+  [upcoming_service.py\nname mapping + scoring] as UPSVC
+  [space_service.py] as SPACESVC
+  [space_cache.py\nlimiter (8 LL2 calls/h),\ncache, snapshots] as CACHE
+  [routes\n/predict /features /eda-stats\n/upcoming /space/* /health] as ROUTES
+}
+
+package "React frontend (frontend/)" {
+  [Launches tab\nhero, cards, gauge] as T1
+  [What-if tab] as T2
+  [Insights tab] as T3
+  [About the model tab] as T4
+  [Explore tab\nAstronauts, Events, Missions,\nNews, ISS now, Space basics] as T5
+  [IssGlobe\n3D globe, lazy loaded,\n2D map fallback] as GLOBE
+}
+
+GCAT --> INGEST
+OM --> INGEST : archive weather
+INGEST --> CSV1
+CSV1 --> REFETCH
+OM --> REFETCH : re-fetch missing weather
+REFETCH --> CSV2
+CSV2 --> TRAIN
+TRAIN --> BUNDLE
+TRAIN --> META
+CSV2 --> MKREF
+BUNDLE --> MKREF
+MKREF --> REF
+
+BUNDLE --> MODEL
+META --> ROUTES
+REF --> REFSVC
+MAIN --> MODEL
+MAIN --> CACHE : warm-up
+MODEL --> REFSVC
+ROUTES --> MODEL
+ROUTES --> UPSVC
+ROUTES --> SPACESVC
+UPSVC --> MODEL
+UPSVC --> CACHE
+SPACESVC --> CACHE
+UPSVC --> LL2
+UPSVC --> OM : forecast weather
+SPACESVC --> LL2
+SPACESVC --> SNAPI
+SPACESVC --> ISS
+
+T1 --> ROUTES : GET /upcoming
+T2 --> ROUTES : GET /features,\nPOST /predict
+T3 --> ROUTES : GET /eda-stats
+T4 --> ROUTES : GET /eda-stats
+T5 --> ROUTES : GET /space/*
+T5 --> GLOBE
+GLOBE ..> ROUTES : GET /space/iss\n(own 15 s poll)
+
+note bottom of CACHE
+  Requests never wait on an external call.
+  They get cached data or a bundled snapshot
+  (stale = true) while a background refresh runs.
+end note
+@enduml

@@ -1,0 +1,26 @@
+@startuml data_pipeline
+title Data and model pipeline (v2)
+start
+:GCAT launches (gcat.csv) and launch sites (sites.tsv);
+:Merge launches with site latitude and longitude;
+:Open-Meteo archive: daily temp_mean, precipitation,\nmax_wind_speed for each launch date and site\n(scripts/ingest_data.py, checkpointed);
+:data/merged_gcat_meteo.csv\n(3,470 rows without weather: HTTP 429, timeouts);
+:Repair: re-fetch only rows that are not SUCCESS,\ngrouped by site and date window\n(scripts/refetch_missing.py);
+:data/merged_gcat_meteo_v2.csv\n17,063 rows with weather;
+partition "scripts/modelling_v2.py" {
+  :Clean: keep rows with all three weather values\nTarget = 1 when FailCode is present (anomaly), else 0\n(1,208 anomalies, 7.08%);
+  :Stratified 80/20 split, random_state = 42\ntrain 13,650 | test 3,413;
+  :Baselines: Logistic Regression and Random Forest\n(full one-hot encoding);
+  :Preprocessing: scale numbers,\none-hot encode site, vehicle, agency\n(rare categories grouped, min_frequency = 30);
+  :imblearn pipeline: preprocessing + SMOTE + Random Forest\n(SMOTE only sees training folds);
+  :Grid search, 5-fold stratified CV, scored on PR-AUC;
+  :Tune decision threshold: maximise F2 on\nout-of-fold training predictions (0.226);
+  :Evaluate once on the held-out test set\nrecall, precision, F2, PR-AUC, ROC-AUC, bootstrap intervals;
+  :Feature ablation and permutation importance;
+  :Save bundle: model, threshold, num_cols, cat_cols,\nknown_categories, plus metadata.json;
+}
+:backend/model_v2/ (copied to backend/model/ to promote);
+:backend/scripts/make_score_reference.py\nscores the held-out test set only,\nchecks 3,413 rows, 242 anomalies, recall 184 of 242;
+:backend/model/score_reference.json\n101 quantiles + 5 equal-count bands;
+stop
+@enduml
