@@ -17,3 +17,6 @@ data/merged_gcat_meteo_v2.csv.state.json
 build/
 *.partial
 *.state.json
+
+.claude/
+CLAUDE.md
